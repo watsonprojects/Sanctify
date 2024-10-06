@@ -10,11 +10,13 @@ var board_pos: Vector2i
 
 @onready var arena: Arena = get_parent()
 @onready var flag_mesh: Node3D = $Flag
-@onready var reveal_decal: Decal = $Decal
+@onready var fog: MeshInstance3D = $Fog
+
+@export var runes: Array[Decal]
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
-	pass # Replace with function body.
+	pass
 
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
@@ -31,7 +33,6 @@ func mouse_input(camera, event, event_position, normal, shape_idx):
 
 
 func reveal():
-	print("revealing")
 	if not arena.board_init:
 		arena.arrange_mines(board_pos)
 
@@ -41,14 +42,17 @@ func reveal():
 	else:
 		revealed = true
 		flag_mesh.visible = false
-		reveal_decal.visible = true
+		fog.visible = false
 		nearby_mines = get_nearby_mines()
 		print(nearby_mines)
-		for i in range(7):
-			if i == nearby_mines - 1:
-				get_node("RuneDecals/Rune" + str(i + 1)).visible = true
+		update_hint()
+		
+func update_hint():
+	for i in range(1, 7):
+			if i == nearby_mines:
+				runes[i].visible = true
 			else:
-				get_node("RuneDecals/Rune" + str(i + 1)).visible = false
+				runes[i].visible = false
 
 func flag():
 	if flag_mesh.visible:
@@ -78,3 +82,10 @@ func get_nearby_mines():
 					count += 1
 
 	return count
+	
+func set_puddle():
+	if $Puddle.visible:
+		return false
+		
+	$Puddle.visible = true
+	return true

@@ -11,6 +11,8 @@ config_version=5
 [application]
 
 config/name="Sanctify"
+config/description="Get rid of curses placed behind floors of the pantheon"
+config/version="0.1"
 run/main_scene="res://main_menu.tscn"
 config/features=PackedStringArray("4.3", "GL Compatibility")
 run/max_fps=120
@@ -20,15 +22,18 @@ config/icon="res://icon.svg"
 [autoload]
 
 PhantomCameraManager="*res://addons/phantom_camera/scripts/managers/phantom_camera_manager.gd"
+DebugMenu="*res://addons/debug_menu/debug_menu.tscn"
 
 [display]
 
 window/size/viewport_width=800
 window/size/viewport_height=600
+window/size/window_width_override=800
+window/size/window_height_override=600
 
 [editor_plugins]
 
-enabled=PackedStringArray("res://addons/phantom_camera/plugin.cfg")
+enabled=PackedStringArray("res://addons/debug_menu/plugin.cfg", "res://addons/phantom_camera/plugin.cfg")
 
 [input]
 
@@ -149,6 +154,7 @@ switch_view={
 [rendering]
 
 renderer/rendering_method="mobile"
+textures/decals/filter=0
 anti_aliasing/quality/screen_space_aa=1
 viewport/size/borderless=false
 viewport/size/transparent=false

@@ -8,6 +8,8 @@ var light_theme: Theme
 var dark = DisplayServer.is_dark_mode()
 
 func _ready():
+	DisplayServer.window_set_min_size(Vector2i(800, 600))
+	
 	dark_theme = preload("res://data/elementary_dark.theme")
 	light_theme = preload("res://data/elementary_light.theme")
 	

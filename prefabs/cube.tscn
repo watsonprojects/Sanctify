@@ -1,4 +1,4 @@
-[gd_scene load_steps=19 format=3 uid="uid://3k3sqnneywit"]
+[gd_scene load_steps=23 format=3 uid="uid://3k3sqnneywit"]
 
 [ext_resource type="Script" path="res://src/cube.gd" id="1_1mria"]
 [ext_resource type="Material" uid="uid://bjvoxw3ti73tg" path="res://data/materials/cube/cube.material" id="2_k4qmm"]
@@ -8,6 +8,9 @@
 [ext_resource type="Texture2D" uid="uid://b3m1s3va18nof" path="res://data/materials/runes/rune_2_norm.png" id="6_2bm1k"]
 [ext_resource type="Texture2D" uid="uid://4mp614i81xr5" path="res://data/materials/runes/rune_3_diff.png" id="7_pihum"]
 [ext_resource type="Texture2D" uid="uid://ch4x2rxlb0ec0" path="res://data/materials/runes/rune_3_norm.png" id="8_m3kuw"]
+[ext_resource type="Texture2D" uid="uid://3eih52ybnui7" path="res://data/images/fog.png" id="9_sytra"]
+[ext_resource type="Texture2D" uid="uid://djr73062q5fe1" path="res://data/images/puddle.png" id="10_all4f"]
+[ext_resource type="Texture2D" uid="uid://b2r2m5gneqkyl" path="res://data/images/puddle_orm.png" id="11_0x4wk"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_1l1c1"]
 
@@ -126,27 +129,40 @@ _data = {
 "pulse": SubResource("Animation_7y81x")
 }
 
-[sub_resource type="Gradient" id="Gradient_6kbid"]
-colors = PackedColorArray(0.93408, 0.93408, 0.93408, 1, 1, 1, 1, 1)
+[sub_resource type="ORMMaterial3D" id="ORMMaterial3D_u21xs"]
+transparency = 4
+albedo_texture = ExtResource("9_sytra")
 
-[sub_resource type="GradientTexture1D" id="GradientTexture1D_u5qk6"]
-gradient = SubResource("Gradient_6kbid")
+[sub_resource type="PlaneMesh" id="PlaneMesh_v5c6c"]
 
-[sub_resource type="Gradient" id="Gradient_uur0s"]
-colors = PackedColorArray(0, 0, 0, 1, 0.293058, 0.533923, 0.530234, 1)
+[sub_resource type="Gradient" id="Gradient_5xre1"]
+offsets = PackedFloat32Array(0, 0.495017, 1)
+colors = PackedColorArray(0, 0, 0, 1, 0.0232558, 0.0232558, 0.0232558, 1, 1, 1, 1, 1)
 
-[sub_resource type="GradientTexture2D" id="GradientTexture2D_khh0s"]
-gradient = SubResource("Gradient_uur0s")
-fill_to = Vector2(1, 1)
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_svdpv"]
+noise_type = 5
+frequency = 0.0239
 
-[node name="Cube" type="Area3D"]
+[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_jb3ne"]
+width = 1024
+height = 1024
+generate_mipmaps = false
+seamless = true
+as_normal_map = true
+bump_strength = 32.0
+normalize = false
+color_ramp = SubResource("Gradient_5xre1")
+noise = SubResource("FastNoiseLite_svdpv")
+
+[node name="Cube" type="Area3D" node_paths=PackedStringArray("runes")]
 script = ExtResource("1_1mria")
+runes = [null, NodePath("RuneDecals/Rune1"), NodePath("RuneDecals/Rune2"), NodePath("RuneDecals/Rune3"), NodePath("RuneDecals/Rune4"), NodePath("RuneDecals/Rune5"), NodePath("RuneDecals/Rune6"), NodePath("RuneDecals/Rune7")]
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
 shape = SubResource("BoxShape3D_1l1c1")
 
 [node name="CubeMesh" type="MeshInstance3D" parent="."]
-transform = Transform3D(0.95, 0, 0, 0, 0.95, 0, 0, 0, 0.95, 0, 0, 0)
+transform = Transform3D(0.975, 0, 0, 0, 0.975, 0, 0, 0, 0.975, 0, 0, 0)
 material_override = ExtResource("2_k4qmm")
 mesh = SubResource("BoxMesh_xem3t")
 
@@ -166,10 +182,13 @@ libraries = {
 [node name="Rune1" type="Decal" parent="RuneDecals"]
 transform = Transform3D(0.5, 0, 0, 0, 0.5, 0, 0, 0, 0.5, 0, 0.0571289, 0)
 visible = false
+sorting_offset = 10.0
 texture_albedo = ExtResource("3_rqi6n")
 texture_normal = ExtResource("4_oyot6")
 texture_emission = ExtResource("3_rqi6n")
 emission_energy = 0.0
+upper_fade = 0.00502394
+lower_fade = 0.00269226
 
 [node name="Rune2" type="Decal" parent="RuneDecals"]
 transform = Transform3D(0.5, 0, 0, 0, 0.5, 0, 0, 0, 0.5, 0, 0.0571289, 0)
@@ -224,14 +243,19 @@ wait_time = 0.1
 one_shot = true
 autostart = true
 
-[node name="Decal" type="Decal" parent="."]
+[node name="Fog" type="MeshInstance3D" parent="."]
+transform = Transform3D(0.95, 0, 0, 0, 0.95, 0, 0, 0, 0.95, 0, 0.505, 0)
+sorting_offset = -2.0
+material_override = SubResource("ORMMaterial3D_u21xs")
+mesh = SubResource("PlaneMesh_v5c6c")
+
+[node name="Puddle" type="Decal" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.163757, 0.878784, 0)
 visible = false
-size = Vector3(1, 1, 1)
-texture_albedo = SubResource("GradientTexture1D_u5qk6")
-texture_emission = SubResource("GradientTexture2D_khh0s")
-emission_energy = 4.0
-modulate = Color(0, 0.391527, 0.281924, 1)
-lower_fade = 0.00177623
+size = Vector3(6.97656, 2, 4.69238)
+texture_albedo = ExtResource("10_all4f")
+texture_normal = SubResource("NoiseTexture2D_jb3ne")
+texture_orm = ExtResource("11_0x4wk")
 
 [connection signal="input_event" from="." to="." method="mouse_input"]
 [connection signal="timeout" from="RuneDecals/Timer" to="RuneDecals/AnimationPlayer" method="play" binds= ["pulse"]]

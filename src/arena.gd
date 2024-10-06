@@ -5,7 +5,7 @@ class_name Arena
 const CUBE_SCENE = preload("res://prefabs/cube.tscn")
 
 var grid_width = 8
-var grid_length = 8
+var grid_length = 16
 var mines = 8
 
 var board = []
@@ -15,26 +15,34 @@ var lost = false
 var board_init = false
 var revealing_multi = false
 var top_view = false
+var timer_started = false
+var time = 0
 
 @onready var cursor: Cursor = $Cursor
+@onready var ui: UI = $UI
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	arrange_grid()
 	cursor.move(Vector2i(-1 + grid_length / 2, grid_width - 1))
 
+func _physics_process(delta):
+	if timer_started:
+		time += delta
+		ui.update_time(time)
+	
 func _process(delta):
 	if Input.get_action_strength("cursor_joy_up") > 0.5:
 		if cursor.target_pos.y > 0:
 			cursor.move(Vector2(0, -1))
 	elif Input.get_action_strength("cursor_joy_down") > 0.5:
-		if cursor.target_pos.y < grid_length - 1:
+		if cursor.target_pos.y < grid_width - 1:
 			cursor.move(Vector2(0, 1))
 	elif Input.get_action_strength("cursor_joy_left") > 0.5:
 		if cursor.target_pos.x > 0:
 			cursor.move(Vector2(-1, 0))
 	elif Input.get_action_strength("cursor_joy_right") > 0.5:
-		if cursor.target_pos.x < grid_width - 1:
+		if cursor.target_pos.x < grid_length - 1:
 			cursor.move(Vector2(1, 0))
 
 func _input(event):
@@ -44,13 +52,13 @@ func _input(event):
 		if cursor.target_pos.y > 0:
 			cursor.move(Vector2(0, -1))
 	elif e.is_action("cursor_down"):
-		if cursor.target_pos.y < grid_length - 1:
+		if cursor.target_pos.y < grid_width - 1:
 			cursor.move(Vector2(0, 1))
 	elif e.is_action("cursor_left"):
 		if cursor.target_pos.x > 0:
 			cursor.move(Vector2(-1, 0))
 	elif e.is_action("cursor_right"):
-		if cursor.target_pos.x < grid_width - 1:
+		if cursor.target_pos.x < grid_length - 1:
 			cursor.move(Vector2(1, 0))
 			
 	if e.is_action_pressed("cursor_flag"):
@@ -82,6 +90,7 @@ func arrange_grid():
 			# Add the cube to the scene
 			add_child(cube_instance)
 		board.append(row)
+	set_cosmetics()
 
 func arrange_mines(exc: Vector2i):
 	board_init = true
@@ -97,8 +106,21 @@ func arrange_mines(exc: Vector2i):
 			(board[i][j] as Cube).is_mine = true
 			m += 1
 
+func set_cosmetics():
+	var p = 0
+	var max_puddles = grid_length * grid_width * 0.01
+	while p < max_puddles:
+		var i = randi_range(0, grid_length - 1)
+		var j = randi_range(0, grid_width - 1)
+			
+		if (board[i][j] as Cube).set_puddle():
+			p += 1
+
 func reveal_recursive(start_position: Vector2i):
 	const matrix = [[-1, 0], [1, 0], [0, -1], [0, 1]]
+	if not timer_started:
+			timer_started = true
+			
 	var queue = []
 	
 	if (board[start_position.x][start_position.y] as Cube).is_mine:
@@ -124,6 +146,7 @@ func reveal_recursive(start_position: Vector2i):
 				print("Is mine")
 			else:
 				print("Already done", cube.get_nearby_mines())
+				cube.update_hint()
 			continue
 
 		cube.reveal()

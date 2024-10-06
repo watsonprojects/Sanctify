@@ -90,7 +90,7 @@ follow_distance = 20.0
 spring_length = 20.0
 
 [node name="TopCam" type="Node3D" parent="." node_paths=PackedStringArray("follow_target", "follow_targets")]
-transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 0.999999, 0, -0.999999, -4.37114e-08, 0, 20.75, -8.74227e-07)
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 0.999999, 0, -0.999999, -4.37114e-08, 0, 20.75, -8.74228e-07)
 script = ExtResource("3_qfict")
 follow_mode = 5
 follow_target = NodePath("../Cursor")
@@ -103,7 +103,8 @@ spring_length = 20.0
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
 environment = SubResource("Environment_bjets")
 
-[node name="Cube" parent="." instance=ExtResource("6_132cw")]
+[node name="Cube" parent="." node_paths=PackedStringArray("runes") instance=ExtResource("6_132cw")]
+runes = [null, NodePath("RuneDecals/Rune1"), NodePath("RuneDecals/Rune2"), NodePath("RuneDecals/Rune3"), NodePath("RuneDecals/Rune4"), NodePath("RuneDecals/Rune5"), NodePath("RuneDecals/Rune6"), NodePath("RuneDecals/Rune7")]
 
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
 transform = Transform3D(0.87887, 0.128065, 0.45955, -0.176508, -0.807643, 0.562635, 0.443206, -0.575598, -0.687209, 0, 0, 0)
