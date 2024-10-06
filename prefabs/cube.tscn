@@ -1,0 +1,237 @@
+[gd_scene load_steps=19 format=3 uid="uid://3k3sqnneywit"]
+
+[ext_resource type="Script" path="res://src/cube.gd" id="1_1mria"]
+[ext_resource type="Material" uid="uid://bjvoxw3ti73tg" path="res://data/materials/cube/cube.material" id="2_k4qmm"]
+[ext_resource type="Texture2D" uid="uid://n0mnqvgc7mha" path="res://data/materials/runes/rune_1_diff.png" id="3_rqi6n"]
+[ext_resource type="Texture2D" uid="uid://m0ba3ebpohoc" path="res://data/materials/runes/rune_1_nor.png" id="4_oyot6"]
+[ext_resource type="Texture2D" uid="uid://dwa0jxm0btd1n" path="res://data/materials/runes/rune_2_diff.png" id="5_700hr"]
+[ext_resource type="Texture2D" uid="uid://b3m1s3va18nof" path="res://data/materials/runes/rune_2_norm.png" id="6_2bm1k"]
+[ext_resource type="Texture2D" uid="uid://4mp614i81xr5" path="res://data/materials/runes/rune_3_diff.png" id="7_pihum"]
+[ext_resource type="Texture2D" uid="uid://ch4x2rxlb0ec0" path="res://data/materials/runes/rune_3_norm.png" id="8_m3kuw"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_1l1c1"]
+
+[sub_resource type="BoxMesh" id="BoxMesh_xem3t"]
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_hbxne"]
+orientation = 2
+
+[sub_resource type="Animation" id="Animation_fqlvq"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:emission_energy")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [0.0]
+}
+
+[sub_resource type="Animation" id="Animation_7y81x"]
+resource_name = "pulse"
+length = 1.5
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:emission_energy")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.5, 1.5),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [0.0, 4.0, 0.0]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("../Rune2:emission_energy")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.5, 1.5),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [0.0, 4.0, 0.0]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("../Rune3:emission_energy")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0, 0.5, 1.5),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [0.0, 4.0, 0.0]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("../Rune4:emission_energy")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0, 0.5, 1.5),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [0.0, 4.0, 0.0]
+}
+tracks/4/type = "value"
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/path = NodePath("../Rune5:emission_energy")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/keys = {
+"times": PackedFloat32Array(0, 0.5, 1.5),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [0.0, 4.0, 0.0]
+}
+tracks/5/type = "value"
+tracks/5/imported = false
+tracks/5/enabled = true
+tracks/5/path = NodePath("../Rune6:emission_energy")
+tracks/5/interp = 1
+tracks/5/loop_wrap = true
+tracks/5/keys = {
+"times": PackedFloat32Array(0, 0.5, 1.5),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [0.0, 4.0, 0.0]
+}
+tracks/6/type = "value"
+tracks/6/imported = false
+tracks/6/enabled = true
+tracks/6/path = NodePath("../Rune7:emission_energy")
+tracks/6/interp = 1
+tracks/6/loop_wrap = true
+tracks/6/keys = {
+"times": PackedFloat32Array(0, 0.5, 1.5),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [0.0, 4.0, 0.0]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_s0qxt"]
+_data = {
+"RESET": SubResource("Animation_fqlvq"),
+"pulse": SubResource("Animation_7y81x")
+}
+
+[sub_resource type="Gradient" id="Gradient_6kbid"]
+colors = PackedColorArray(0.93408, 0.93408, 0.93408, 1, 1, 1, 1, 1)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_u5qk6"]
+gradient = SubResource("Gradient_6kbid")
+
+[sub_resource type="Gradient" id="Gradient_uur0s"]
+colors = PackedColorArray(0, 0, 0, 1, 0.293058, 0.533923, 0.530234, 1)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_khh0s"]
+gradient = SubResource("Gradient_uur0s")
+fill_to = Vector2(1, 1)
+
+[node name="Cube" type="Area3D"]
+script = ExtResource("1_1mria")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+shape = SubResource("BoxShape3D_1l1c1")
+
+[node name="CubeMesh" type="MeshInstance3D" parent="."]
+transform = Transform3D(0.95, 0, 0, 0, 0.95, 0, 0, 0, 0.95, 0, 0, 0)
+material_override = ExtResource("2_k4qmm")
+mesh = SubResource("BoxMesh_xem3t")
+
+[node name="Flag" type="MeshInstance3D" parent="."]
+transform = Transform3D(0.344177, 0, 0, 0, 0.642634, 0, 0, 0, 0.642634, 0, 1.33899, 0)
+visible = false
+mesh = SubResource("PlaneMesh_hbxne")
+
+[node name="RuneDecals" type="Node3D" parent="."]
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="RuneDecals"]
+root_node = NodePath("../Rune1")
+libraries = {
+"": SubResource("AnimationLibrary_s0qxt")
+}
+
+[node name="Rune1" type="Decal" parent="RuneDecals"]
+transform = Transform3D(0.5, 0, 0, 0, 0.5, 0, 0, 0, 0.5, 0, 0.0571289, 0)
+visible = false
+texture_albedo = ExtResource("3_rqi6n")
+texture_normal = ExtResource("4_oyot6")
+texture_emission = ExtResource("3_rqi6n")
+emission_energy = 0.0
+
+[node name="Rune2" type="Decal" parent="RuneDecals"]
+transform = Transform3D(0.5, 0, 0, 0, 0.5, 0, 0, 0, 0.5, 0, 0.0571289, 0)
+visible = false
+texture_albedo = ExtResource("5_700hr")
+texture_normal = ExtResource("6_2bm1k")
+texture_emission = ExtResource("5_700hr")
+emission_energy = 3.86667
+
+[node name="Rune3" type="Decal" parent="RuneDecals"]
+transform = Transform3D(0.5, 0, 0, 0, 0.5, 0, 0, 0, 0.5, 0, 0.0571289, 0)
+visible = false
+texture_albedo = ExtResource("7_pihum")
+texture_normal = ExtResource("8_m3kuw")
+texture_emission = ExtResource("7_pihum")
+emission_energy = 3.86667
+
+[node name="Rune4" type="Decal" parent="RuneDecals"]
+transform = Transform3D(0.5, 0, 0, 0, 0.5, 0, 0, 0, 0.5, 0, 0.0571289, 0)
+visible = false
+texture_albedo = ExtResource("3_rqi6n")
+texture_normal = ExtResource("4_oyot6")
+texture_emission = ExtResource("3_rqi6n")
+emission_energy = 3.86667
+
+[node name="Rune5" type="Decal" parent="RuneDecals"]
+transform = Transform3D(0.5, 0, 0, 0, 0.5, 0, 0, 0, 0.5, 0, 0.0571289, 0)
+visible = false
+texture_albedo = ExtResource("3_rqi6n")
+texture_normal = ExtResource("4_oyot6")
+texture_emission = ExtResource("3_rqi6n")
+emission_energy = 3.86667
+
+[node name="Rune6" type="Decal" parent="RuneDecals"]
+transform = Transform3D(0.5, 0, 0, 0, 0.5, 0, 0, 0, 0.5, 0, 0.0571289, 0)
+visible = false
+texture_albedo = ExtResource("3_rqi6n")
+texture_normal = ExtResource("4_oyot6")
+texture_emission = ExtResource("3_rqi6n")
+emission_energy = 3.86667
+
+[node name="Rune7" type="Decal" parent="RuneDecals"]
+transform = Transform3D(0.5, 0, 0, 0, 0.5, 0, 0, 0, 0.5, 0, 0.0571289, 0)
+visible = false
+texture_albedo = ExtResource("3_rqi6n")
+texture_normal = ExtResource("4_oyot6")
+texture_emission = ExtResource("3_rqi6n")
+emission_energy = 3.86667
+
+[node name="Timer" type="Timer" parent="RuneDecals"]
+wait_time = 0.1
+one_shot = true
+autostart = true
+
+[node name="Decal" type="Decal" parent="."]
+visible = false
+size = Vector3(1, 1, 1)
+texture_albedo = SubResource("GradientTexture1D_u5qk6")
+texture_emission = SubResource("GradientTexture2D_khh0s")
+emission_energy = 4.0
+modulate = Color(0, 0.391527, 0.281924, 1)
+lower_fade = 0.00177623
+
+[connection signal="input_event" from="." to="." method="mouse_input"]
+[connection signal="timeout" from="RuneDecals/Timer" to="RuneDecals/AnimationPlayer" method="play" binds= ["pulse"]]
