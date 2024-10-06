@@ -545,4 +545,5 @@ autostart = true
 
 [connection signal="pressed" from="VBoxContainer/UI/ButtonBox/Button" to="." method="start_over"]
 [connection signal="pressed" from="VBoxContainer/UI/ButtonBox/Button2" to="." method="give_up"]
+[connection signal="pressed" from="VBoxContainer/UI/ButtonBox/Button3" to="." method="switch_view"]
 [connection signal="timeout" from="AnimationPlayer/Timer" to="AnimationPlayer" method="play" binds= ["splash"]]

@@ -1,4 +1,4 @@
-[gd_scene load_steps=14 format=3 uid="uid://gib3b7bmu7vq"]
+[gd_scene load_steps=15 format=3 uid="uid://gib3b7bmu7vq"]
 
 [ext_resource type="Script" path="res://src/arena.gd" id="1_2d1np"]
 [ext_resource type="Script" path="res://addons/phantom_camera/scripts/phantom_camera_host/phantom_camera_host.gd" id="2_sa7a4"]
@@ -12,10 +12,22 @@
 [sub_resource type="Resource" id="Resource_b5xt7"]
 script = ExtResource("4_f2fkr")
 duration = 1.0
-transition = 0
+transition = 7
 ease = 2
 
 [sub_resource type="Resource" id="Resource_d3bfq"]
+script = ExtResource("5_d8pjb")
+cull_mask = 1048575
+h_offset = 0.0
+v_offset = 0.0
+projection = 1
+fov = 75.0
+size = 8.0
+frustum_offset = Vector2(0, 0)
+near = 0.001
+far = 4000.0
+
+[sub_resource type="Resource" id="Resource_tcgm5"]
 script = ExtResource("5_d8pjb")
 cull_mask = 1048575
 h_offset = 0.0
@@ -66,7 +78,7 @@ near = 0.001
 [node name="PhantomCameraHost" type="Node" parent="Camera3D"]
 script = ExtResource("2_sa7a4")
 
-[node name="PhantomCamera3D" type="Node3D" parent="." node_paths=PackedStringArray("follow_target", "follow_targets")]
+[node name="IsoCam" type="Node3D" parent="." node_paths=PackedStringArray("follow_target", "follow_targets")]
 transform = Transform3D(0.866025, -0.353553, 0.353553, 0, 0.707107, 0.707107, -0.5, -0.612372, 0.612372, 7.07106, 14.8921, 12.2474)
 script = ExtResource("3_qfict")
 follow_mode = 5
@@ -74,6 +86,17 @@ follow_target = NodePath("../Cursor")
 follow_targets = [NodePath("../Cursor"), null]
 tween_resource = SubResource("Resource_b5xt7")
 camera_3d_resource = SubResource("Resource_d3bfq")
+follow_distance = 20.0
+spring_length = 20.0
+
+[node name="TopCam" type="Node3D" parent="." node_paths=PackedStringArray("follow_target", "follow_targets")]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 0.999999, 0, -0.999999, -4.37114e-08, 0, 20.75, -8.74227e-07)
+script = ExtResource("3_qfict")
+follow_mode = 5
+follow_target = NodePath("../Cursor")
+follow_targets = [NodePath("../Cursor"), null]
+tween_resource = SubResource("Resource_b5xt7")
+camera_3d_resource = SubResource("Resource_tcgm5")
 follow_distance = 20.0
 spring_length = 20.0
 
@@ -91,3 +114,5 @@ directional_shadow_max_distance = 8192.0
 [node name="Cursor" parent="." instance=ExtResource("7_xb0cn")]
 
 [node name="UI" parent="." instance=ExtResource("8_3nbxp")]
+
+[connection signal="on_switch_view" from="UI" to="." method="switch_view"]

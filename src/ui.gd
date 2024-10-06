@@ -5,6 +5,8 @@ var light_theme: Theme
 
 var dark = DisplayServer.is_dark_mode()
 
+signal on_switch_view
+
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	dark_theme = preload("res://data/elementary_dark.theme")
@@ -30,3 +32,6 @@ func start_over():
 	
 func give_up():
 	get_tree().change_scene_to_file("res://main_menu.tscn")
+
+func switch_view():
+	on_switch_view.emit()

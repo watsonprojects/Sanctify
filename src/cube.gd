@@ -24,12 +24,17 @@ func _process(delta):
 
 func mouse_input(camera, event, event_position, normal, shape_idx):
 	if (event as InputEvent).is_action_released("reveal"):
-		reveal()
+		if not arena.revealing_multi:
+			arena.reveal_recursive(board_pos)
 	if (event as InputEvent).is_action_released("flag"):
 		flag()
 
 
 func reveal():
+	print("revealing")
+	if not arena.board_init:
+		arena.arrange_mines(board_pos)
+
 	if not arena.lost and is_mine:
 		arena.lost = true
 		print("You lost")
@@ -57,12 +62,19 @@ func flag():
 func get_nearby_mines():
 	var count = 0
 
-	for i in range(-1, 2, 1):
-		for j in range(-1, 2, 1):
-			if i != 0 and j != 0:
-				if board_pos.x + i > 0 and board_pos.x < arena.grid_length - 1 \
-				and board_pos.y + j > 0 and board_pos.y < arena.grid_width - 1:
-					if (arena.board[board_pos.x + i][board_pos.y + j] as Cube).is_mine:
-						count += 1
+	# Loop through all the neighboring cells (including diagonals)
+	for dx in range(-1, 2):  # -1, 0, 1
+		for dy in range(-1, 2):  # -1, 0, 1
+			# Skip the current cell itself
+			if dx == 0 and dy == 0:
+				continue
+
+			var neighbor_x = board_pos.x + dx
+			var neighbor_y = board_pos.y + dy
+
+			# Check bounds to avoid accessing out-of-bounds array indices
+			if neighbor_x >= 0 and neighbor_x < arena.grid_length and neighbor_y >= 0 and neighbor_y < arena.grid_width:
+				if (arena.board[neighbor_x][neighbor_y] as Cube).is_mine:
+					count += 1
 
 	return count

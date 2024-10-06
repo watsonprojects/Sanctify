@@ -17,8 +17,10 @@ func _physics_process(delta):
 	
 	if target_reach_timer > 0:
 		target_reach_timer -= delta * 5
+		print(target_reach_timer)
 
 func move(pos: Vector2i):
-	if target_reach_timer <= 0.001:
+	print("Move")
+	if target_reach_timer <= 0.01:
 		target_pos += pos
 		target_reach_timer = 1
