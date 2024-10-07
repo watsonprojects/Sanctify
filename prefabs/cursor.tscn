@@ -52,6 +52,33 @@ particles_anim_loop = false
 material = SubResource("StandardMaterial3D_v77s4")
 size = Vector2(0.02, 0.02)
 
+[sub_resource type="Animation" id="Animation_snevp"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("OmniLight3D:light_energy")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [0.0]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Halo:rotation")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector3(0, 0, 0)]
+}
+
 [sub_resource type="Animation" id="Animation_078vl"]
 resource_name = "pulse"
 length = 2.0
@@ -81,33 +108,6 @@ tracks/1/keys = {
 "values": [Vector3(0, 0, 0), Vector3(0.593412, -1.26711, 2.71573), Vector3(-1.94255, 1.90066, 2.91645), Vector3(1.39626, 0.349066, 1.39626), Vector3(1.37357, -2.11185, -2.21831), Vector3(0, 0, 0)]
 }
 
-[sub_resource type="Animation" id="Animation_snevp"]
-length = 0.001
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath("OmniLight3D:light_energy")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 0,
-"values": [0.0]
-}
-tracks/1/type = "value"
-tracks/1/imported = false
-tracks/1/enabled = true
-tracks/1/path = NodePath("Halo:rotation")
-tracks/1/interp = 1
-tracks/1/loop_wrap = true
-tracks/1/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 0,
-"values": [Vector3(0, 0, 0)]
-}
-
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_0uala"]
 _data = {
 "RESET": SubResource("Animation_snevp"),
@@ -116,6 +116,13 @@ _data = {
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_6j5t3"]
 transparency = 1
+blend_mode = 1
+shading_mode = 2
+diffuse_mode = 1
+specular_mode = 2
+disable_ambient_light = true
+disable_fog = true
+albedo_color = Color(1, 1, 1, 0.313726)
 emission_enabled = true
 emission = Color(0.874657, 0.550051, 0.819794, 1)
 emission_energy_multiplier = 3.0
@@ -124,7 +131,7 @@ emission_energy_multiplier = 3.0
 inner_radius = 0.1
 outer_radius = 0.16
 rings = 16
-ring_segments = 16
+ring_segments = 8
 
 [node name="Cursor" type="MeshInstance3D"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.75, 0)
@@ -161,5 +168,12 @@ autostart = true
 material_override = SubResource("StandardMaterial3D_6j5t3")
 cast_shadow = 0
 mesh = SubResource("TorusMesh_2u0xi")
+
+[node name="Halo2" type="MeshInstance3D" parent="Halo"]
+transform = Transform3D(-4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0, 0, 1, 0, 0, 0)
+material_override = SubResource("StandardMaterial3D_6j5t3")
+cast_shadow = 0
+mesh = SubResource("TorusMesh_2u0xi")
+skeleton = NodePath("../..")
 
 [connection signal="timeout" from="AnimationPlayer/Timer" to="AnimationPlayer" method="play" binds= ["pulse"]]

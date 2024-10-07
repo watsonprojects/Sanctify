@@ -1,11 +1,10 @@
-[gd_scene load_steps=15 format=3 uid="uid://gib3b7bmu7vq"]
+[gd_scene load_steps=14 format=3 uid="uid://gib3b7bmu7vq"]
 
 [ext_resource type="Script" path="res://src/arena.gd" id="1_2d1np"]
 [ext_resource type="Script" path="res://addons/phantom_camera/scripts/phantom_camera_host/phantom_camera_host.gd" id="2_sa7a4"]
 [ext_resource type="Script" path="res://addons/phantom_camera/scripts/phantom_camera/phantom_camera_3d.gd" id="3_qfict"]
 [ext_resource type="Script" path="res://addons/phantom_camera/scripts/resources/tween_resource.gd" id="4_f2fkr"]
 [ext_resource type="Script" path="res://addons/phantom_camera/scripts/resources/camera_3d_resource.gd" id="5_d8pjb"]
-[ext_resource type="PackedScene" uid="uid://3k3sqnneywit" path="res://prefabs/cube.tscn" id="6_132cw"]
 [ext_resource type="PackedScene" uid="uid://d2ho5gg1g3mc" path="res://prefabs/cursor.tscn" id="7_xb0cn"]
 [ext_resource type="PackedScene" uid="uid://5iadts1xwhdp" path="res://prefabs/ui.tscn" id="8_3nbxp"]
 
@@ -102,9 +101,6 @@ spring_length = 20.0
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
 environment = SubResource("Environment_bjets")
-
-[node name="Cube" parent="." node_paths=PackedStringArray("runes") instance=ExtResource("6_132cw")]
-runes = [null, NodePath("RuneDecals/Rune1"), NodePath("RuneDecals/Rune2"), NodePath("RuneDecals/Rune3"), NodePath("RuneDecals/Rune4"), NodePath("RuneDecals/Rune5"), NodePath("RuneDecals/Rune6"), NodePath("RuneDecals/Rune7")]
 
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
 transform = Transform3D(0.87887, 0.128065, 0.45955, -0.176508, -0.807643, 0.562635, 0.443206, -0.575598, -0.687209, 0, 0, 0)

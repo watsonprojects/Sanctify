@@ -1,6 +1,6 @@
 extends Area3D
 
-class_name Cube
+class_name Tile
 
 var nearby_mines = 0
 var revealed = false
@@ -8,15 +8,25 @@ var is_mine = false
 
 var board_pos: Vector2i
 
-@onready var arena: Arena = get_parent()
-@onready var flag_mesh: Node3D = $Flag
-@onready var fog: MeshInstance3D = $Fog
+@onready var arena: Arena = get_parent().get_parent()
 
-@export var runes: Array[Decal]
+@export var flag_mesh: Node3D
+@export var fog: Node3D
+@export var imperfection: Node3D
+@export var fog_dark: bool
+var runes: Array[Decal]
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
-	pass
+	fog.visible = fog_dark
+	runes.append(null)
+	runes.append($RuneDecals/Rune1)
+	runes.append($RuneDecals/Rune2)
+	runes.append($RuneDecals/Rune3)
+	runes.append($RuneDecals/Rune4)
+	runes.append($RuneDecals/Rune5)
+	runes.append($RuneDecals/Rune6)
+	runes.append($RuneDecals/Rune7)
 
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
@@ -42,11 +52,12 @@ func reveal():
 	else:
 		revealed = true
 		flag_mesh.visible = false
-		fog.visible = false
+		if fog != null:
+			fog.visible = false
 		nearby_mines = get_nearby_mines()
 		print(nearby_mines)
 		update_hint()
-		
+
 func update_hint():
 	for i in range(1, 7):
 			if i == nearby_mines:
@@ -55,11 +66,14 @@ func update_hint():
 				runes[i].visible = false
 
 func flag():
+	if flag_mesh == null:
+		return
+
 	if flag_mesh.visible:
-		flag_mesh.visible = false
+		flag_mesh.visible = !fog_dark
 		arena.flag_count -= 1
 	elif arena.flag_count < arena.max_flag_count and not revealed:
-		flag_mesh.visible = true
+		flag_mesh.visible = fog_dark
 		arena.flag_count += 1
 
 
@@ -78,14 +92,17 @@ func get_nearby_mines():
 
 			# Check bounds to avoid accessing out-of-bounds array indices
 			if neighbor_x >= 0 and neighbor_x < arena.grid_length and neighbor_y >= 0 and neighbor_y < arena.grid_width:
-				if (arena.board[neighbor_x][neighbor_y] as Cube).is_mine:
+				if (arena.board[neighbor_x][neighbor_y] as Tile).is_mine:
 					count += 1
 
 	return count
-	
-func set_puddle():
-	if $Puddle.visible:
+
+func show_imperfection():
+	if imperfection == null:
+		return true
+
+	if imperfection.visible:
 		return false
-		
-	$Puddle.visible = true
+
+	imperfection.visible = true
 	return true

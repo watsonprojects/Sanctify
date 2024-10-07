@@ -2,7 +2,7 @@ extends Node3D
 
 class_name Arena
 
-const CUBE_SCENE = preload("res://prefabs/cube.tscn")
+const TILE_SCENE = preload("res://prefabs/themed_blocks/sand_stone/sandstone_tile.tscn")
 
 var grid_width = 8
 var grid_length = 16
@@ -30,7 +30,7 @@ func _physics_process(delta):
 	if timer_started:
 		time += delta
 		ui.update_time(time)
-	
+
 func _process(delta):
 	if Input.get_action_strength("cursor_joy_up") > 0.5:
 		if cursor.target_pos.y > 0:
@@ -60,14 +60,14 @@ func _input(event):
 	elif e.is_action("cursor_right"):
 		if cursor.target_pos.x < grid_length - 1:
 			cursor.move(Vector2(1, 0))
-			
+
 	if e.is_action_pressed("cursor_flag"):
-		(board[cursor.target_pos.x][cursor.target_pos.y] as Cube).flag()
+		(board[cursor.target_pos.x][cursor.target_pos.y] as Tile).flag()
 	elif e.is_action_pressed("cursor_reveal"):
-		var cube = board[cursor.target_pos.x][cursor.target_pos.y] as Cube
+		var tile = board[cursor.target_pos.x][cursor.target_pos.y] as Tile
 		if not revealing_multi:
-			reveal_recursive(cube.board_pos)
-			
+			reveal_recursive(tile.board_pos)
+
 	if e.is_action_pressed("switch_view"):
 		switch_view()
 
@@ -76,19 +76,19 @@ func arrange_grid():
 	for x in range(grid_length):
 		var row = []
 		for z in range(grid_width):
-			var cube_instance = CUBE_SCENE.instantiate() as Cube  # Create an instance of the cube scene
-			row.append(cube_instance)
-			# Set the cube's position in the grid
-			var position = Vector3(
+			var tile_instance = TILE_SCENE.instantiate()  # Create an instance of the tile scene
+			row.append(tile_instance.get_node("Tile") as Tile)
+			# Set the tile's position in the grid
+			var _position = Vector3(
 				x,  # X-position based on grid column
-				0,  # Y-position (you can change this if you want to stack cubes)
+				0,  # Y-position (you can change this if you want to stack tiles)
 				z   # Z-position based on grid row
 			)
-			cube_instance.position = position
-			cube_instance.board_pos = Vector2i(x, z)
+			tile_instance.position = _position
+			tile_instance.get_node("Tile").board_pos = Vector2i(x, z)
 
-			# Add the cube to the scene
-			add_child(cube_instance)
+			# Add the tile to the scene
+			add_child(tile_instance)
 		board.append(row)
 	set_cosmetics()
 
@@ -98,12 +98,12 @@ func arrange_mines(exc: Vector2i):
 	while m < mines:
 		var i = randi_range(0, grid_length - 1)
 		var j = randi_range(0, grid_width - 1)
-		
+
 		if i == exc.x and j == exc.y:
 			continue
-			
-		if not (board[i][j] as Cube).is_mine:
-			(board[i][j] as Cube).is_mine = true
+
+		if not (board[i][j] as Tile).is_mine:
+			(board[i][j] as Tile).is_mine = true
 			m += 1
 
 func set_cosmetics():
@@ -112,18 +112,18 @@ func set_cosmetics():
 	while p < max_puddles:
 		var i = randi_range(0, grid_length - 1)
 		var j = randi_range(0, grid_width - 1)
-			
-		if (board[i][j] as Cube).set_puddle():
+
+		if (board[i][j] as Tile).show_imperfection():
 			p += 1
 
 func reveal_recursive(start_position: Vector2i):
 	const matrix = [[-1, 0], [1, 0], [0, -1], [0, 1]]
 	if not timer_started:
 			timer_started = true
-			
+
 	var queue = []
-	
-	if (board[start_position.x][start_position.y] as Cube).is_mine:
+
+	if (board[start_position.x][start_position.y] as Tile).is_mine:
 		print("YOU LOST")
 		return
 
@@ -135,23 +135,23 @@ func reveal_recursive(start_position: Vector2i):
 		var current_pos = queue.pop_front()
 		var x = current_pos.x
 		var y = current_pos.y
-		
+
 		if x < 0 or x >= grid_length or y < 0 or y >= grid_width:
 			continue
-			
-		var cube = board[x][y] as Cube
+
+		var tile = board[x][y] as Tile
 		# Skip if this cell is out of bounds or already revealed
-		if cube.revealed or cube.is_mine:
-			if cube.is_mine:
+		if tile.revealed or tile.is_mine:
+			if tile.is_mine:
 				print("Is mine")
 			else:
-				print("Already done", cube.get_nearby_mines())
-				cube.update_hint()
+				print("Already done", tile.get_nearby_mines())
+				tile.update_hint()
 			continue
 
-		cube.reveal()
+		tile.reveal()
 
-		if cube.get_nearby_mines() > 0:
+		if tile.get_nearby_mines() > 0:
 			continue
 
 		# Otherwise, add all neighboring cells to the queue to reveal them
@@ -170,4 +170,3 @@ func switch_view():
 	else:
 		$IsoCam.set_priority(10)
 		$TopCam.set_priority(0)
-		
