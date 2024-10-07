@@ -10,7 +10,7 @@ var board_pos: Vector2i
 
 @onready var arena: Arena = get_parent().get_parent()
 
-@export var flag_mesh: Node3D
+@export var flag_node: Node3D
 @export var fog: Node3D
 @export var imperfection: Node3D
 @export var fog_dark: bool
@@ -51,7 +51,7 @@ func reveal():
 		print("You lost")
 	else:
 		revealed = true
-		flag_mesh.visible = false
+		flag_node.visible = false
 		if fog != null:
 			fog.visible = false
 		nearby_mines = get_nearby_mines()
@@ -66,14 +66,14 @@ func update_hint():
 				runes[i].visible = false
 
 func flag():
-	if flag_mesh == null:
+	if flag_node == null:
 		return
 
-	if flag_mesh.visible:
-		flag_mesh.visible = !fog_dark
+	if flag_node.visible:
+		flag_node.visible = !fog_dark
 		arena.flag_count -= 1
 	elif arena.flag_count < arena.max_flag_count and not revealed:
-		flag_mesh.visible = fog_dark
+		flag_node.visible = fog_dark
 		arena.flag_count += 1
 
 

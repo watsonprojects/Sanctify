@@ -26,6 +26,7 @@ func _ready():
 	arrange_grid()
 	cursor.move(Vector2i(-1 + grid_length / 2, grid_width - 1))
 
+
 func _physics_process(delta):
 	if timer_started:
 		time += delta

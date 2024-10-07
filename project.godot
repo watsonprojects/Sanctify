@@ -151,6 +151,15 @@ switch_view={
 ]
 }
 
+[layer_names]
+
+3d_render/layer_1="Geo"
+3d_render/layer_2="Tile"
+3d_render/layer_3="FlagNormal"
+3d_render/layer_4="FlagTopView"
+3d_render/layer_5="Cursor"
+3d_render/layer_6="Fog"
+
 [rendering]
 
 renderer/rendering_method="mobile"

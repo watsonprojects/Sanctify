@@ -8,12 +8,18 @@
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_nfymu"]
 transparency = 1
+shading_mode = 0
+diffuse_mode = 1
+specular_mode = 2
+disable_ambient_light = true
+disable_fog = true
 albedo_texture = ExtResource("2_xj3ey")
+disable_receive_shadows = true
 
 [sub_resource type="PlaneMesh" id="PlaneMesh_ah6cy"]
 
 [sub_resource type="Gradient" id="Gradient_a0g4r"]
-offsets = PackedFloat32Array(0.448505, 1)
+offsets = PackedFloat32Array(0.740864, 1)
 
 [sub_resource type="FastNoiseLite" id="FastNoiseLite_ie2hn"]
 noise_type = 5
@@ -34,13 +40,14 @@ orientation = 0
 
 [node name="SandstoneTile" type="Node3D"]
 
-[node name="Tile" parent="." node_paths=PackedStringArray("flag_mesh", "fog", "imperfection") instance=ExtResource("1_xkpno")]
-flag_mesh = NodePath("../FlagMesh")
+[node name="Tile" parent="." node_paths=PackedStringArray("flag_node", "fog", "imperfection") instance=ExtResource("1_xkpno")]
+flag_node = NodePath("../Flags")
 fog = NodePath("../Fog")
 imperfection = NodePath("../Imperfection")
 
 [node name="Fog" type="MeshInstance3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.502, 0)
+layers = 32
 material_override = SubResource("StandardMaterial3D_nfymu")
 mesh = SubResource("PlaneMesh_ah6cy")
 skeleton = NodePath("../Tile")
@@ -53,10 +60,21 @@ texture_normal = SubResource("NoiseTexture2D_gq0dh")
 texture_orm = ExtResource("4_veu2f")
 
 [node name="TileMesh" type="MeshInstance3D" parent="."]
+layers = 2
 material_override = ExtResource("5_me8wp")
 mesh = SubResource("BoxMesh_5jdg5")
 
-[node name="FlagMesh" type="MeshInstance3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2, 0)
+[node name="Flags" type="Node3D" parent="."]
 visible = false
+
+[node name="FlagNormal" type="MeshInstance3D" parent="Flags"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2, 0)
+layers = 4
 mesh = SubResource("PlaneMesh_3ha34")
+skeleton = NodePath("../..")
+
+[node name="FlagTopView" type="MeshInstance3D" parent="Flags"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2, 0)
+layers = 8
+mesh = SubResource("PlaneMesh_3ha34")
+skeleton = NodePath("../..")
