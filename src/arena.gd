@@ -168,6 +168,8 @@ func switch_view():
 	if top_view:
 		$IsoCam.set_priority(0)
 		$TopCam.set_priority(10)
+		$Camera3D/DOF.visible = false
 	else:
 		$IsoCam.set_priority(10)
 		$TopCam.set_priority(0)
+		$Camera3D/DOF.visible = true

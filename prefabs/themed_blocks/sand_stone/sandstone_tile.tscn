@@ -4,7 +4,7 @@
 [ext_resource type="Texture2D" uid="uid://3eih52ybnui7" path="res://data/images/fog.png" id="2_xj3ey"]
 [ext_resource type="Texture2D" uid="uid://djr73062q5fe1" path="res://data/images/puddle.png" id="3_nankk"]
 [ext_resource type="Texture2D" uid="uid://b2r2m5gneqkyl" path="res://data/images/puddle_orm.png" id="4_veu2f"]
-[ext_resource type="Material" uid="uid://bjvoxw3ti73tg" path="res://data/materials/cube/cube.material" id="5_me8wp"]
+[ext_resource type="Material" uid="uid://bjvoxw3ti73tg" path="res://data/materials/tile/sand_stone/sand_stone.material" id="5_me8wp"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_nfymu"]
 transparency = 1

@@ -15,9 +15,10 @@ config/description="Get rid of curses placed behind floors of the pantheon"
 config/version="0.1"
 run/main_scene="res://main_menu.tscn"
 config/features=PackedStringArray("4.3", "GL Compatibility")
-run/max_fps=120
+run/max_fps=60
 run/low_processor_mode=true
 config/icon="res://icon.svg"
+boot_splash/minimum_display_time=500
 
 [autoload]
 
@@ -164,6 +165,7 @@ switch_view={
 
 renderer/rendering_method="mobile"
 textures/decals/filter=0
+environment/glow/upscale_mode=0
 anti_aliasing/quality/screen_space_aa=1
 viewport/size/borderless=false
 viewport/size/transparent=false
