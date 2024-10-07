@@ -3,9 +3,15 @@ extends Node3D
 class_name Arena
 
 const TILE_SCENE = preload("res://prefabs/themed_blocks/sand_stone/sandstone_tile.tscn")
+const PILLAR = preload("res://prefabs/themed_blocks/sand_stone/sand_stone_pillar.tscn")
+const BEAM = preload("res://prefabs/themed_blocks/sand_stone/sand_stone_pillar_beam.tscn")
+const WALL = preload("res://prefabs/themed_blocks/sand_stone/sand_stone_wall.tscn")
+const DOOR = preload("res://prefabs/themed_blocks/sand_stone/sand_stone_door.tscn")
+const OUTER_WALL = preload("res://prefabs/themed_blocks/sand_stone/sand_stone_outer_wall.tscn")
+const OUTER_WALL_WINDOW = preload("res://prefabs/themed_blocks/sand_stone/sand_stone_outer_wall_window.tscn")
 
-var grid_width = 8
-var grid_length = 16
+var grid_width = 9
+var grid_length = 9
 var mines = 8
 
 var board = []
@@ -24,6 +30,7 @@ var time = 0
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	arrange_grid()
+	arrange_environment()
 	cursor.move(Vector2i(-1 + grid_length / 2, grid_width - 1))
 
 
@@ -173,3 +180,82 @@ func switch_view():
 		$IsoCam.set_priority(10)
 		$TopCam.set_priority(0)
 		$Camera3D/DOF.visible = true
+
+
+
+func arrange_environment():
+	for y in range(grid_width):
+		if fmod(y, 2) == 0:
+			var pillar_instance = PILLAR.instantiate()  # Create an instance of the tile scene
+			# Set the tile's position in the grid
+			var _position = Vector3(
+				-1,  # X-position based on grid column
+				0,  # Y-position (you can change this if you want to stack tiles)
+				y   # Z-position based on grid row
+			)
+			pillar_instance.position = _position
+			add_child(pillar_instance)
+			
+			var outer_wall_instance = OUTER_WALL.instantiate()  # Create an instance of the tile scene
+			# Set the tile's position in the grid
+			_position = Vector3(
+				-2,  # X-position based on grid column
+				0,  # Y-position (you can change this if you want to stack tiles)
+				y   # Z-position based on grid row
+			)
+			outer_wall_instance.position = _position
+			add_child(outer_wall_instance)
+		else:
+			var beam_instance = BEAM.instantiate()  # Create an instance of the tile scene
+			# Set the tile's position in the grid
+			var _position = Vector3(
+				-1,  # X-position based on grid column
+				0,  # Y-position (you can change this if you want to stack tiles)
+				y   # Z-position based on grid row
+			)
+			beam_instance.position = _position
+			add_child(beam_instance)
+			
+			var outer_wall_window_instance = OUTER_WALL_WINDOW.instantiate()  # Create an instance of the tile scene
+			# Set the tile's position in the grid
+			_position = Vector3(
+				-2,  # X-position based on grid column
+				0,  # Y-position (you can change this if you want to stack tiles)
+				y   # Z-position based on grid row
+			)
+			outer_wall_window_instance.position = _position
+			add_child(outer_wall_window_instance)
+
+		var wall_instance = WALL.instantiate()  # Create an instance of the tile scene
+		# Set the tile's position in the grid
+		var _position = Vector3(
+			grid_length,  # X-position based on grid column
+			0,  # Y-position (you can change this if you want to stack tiles)
+			y   # Z-position based on grid row
+		)
+		wall_instance.position = _position
+		add_child(wall_instance)
+
+	for x in range(grid_length):
+		if x != int(grid_length / 2):
+			var wall_instance = WALL.instantiate()  # Create an instance of the tile scene
+			# Set the tile's position in the grid
+			var _position = Vector3(
+				x,  # X-position based on grid column
+				0,  # Y-position (you can change this if you want to stack tiles)
+				grid_width   # Z-position based on grid row
+			)
+			wall_instance.position = _position
+			wall_instance.rotate_y(-PI / 2)
+			add_child(wall_instance)
+		else:
+			var door_instance = DOOR.instantiate()  # Create an instance of the tile scene
+			# Set the tile's position in the grid
+			var _position = Vector3(
+				x,  # X-position based on grid column
+				0,  # Y-position (you can change this if you want to stack tiles)
+				grid_width   # Z-position based on grid row
+			)
+			door_instance.position = _position
+			door_instance.rotate_y(-PI / 2)
+			add_child(door_instance)

@@ -1,0 +1,42 @@
+[gd_scene load_steps=6 format=3 uid="uid://c06wixb1nkbto"]
+
+[sub_resource type="BoxMesh" id="BoxMesh_jsyq1"]
+size = Vector3(1, 2, 1)
+
+[sub_resource type="BoxMesh" id="BoxMesh_rjn55"]
+size = Vector3(0.1, 20, 1)
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_5xe87"]
+top_radius = 0.05
+bottom_radius = 0.1
+height = 1.0
+radial_segments = 8
+
+[sub_resource type="PrismMesh" id="PrismMesh_1rwt1"]
+size = Vector3(0.83, 0.17, 0.255)
+
+[sub_resource type="BoxMesh" id="BoxMesh_ftw2u"]
+size = Vector3(0.32, 20, 0.395)
+
+[node name="Wall" type="MeshInstance3D"]
+mesh = SubResource("BoxMesh_jsyq1")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.301, -7.99604, 0)
+mesh = SubResource("BoxMesh_rjn55")
+
+[node name="Pillar2" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.359, 1.25496, 0.25)
+mesh = SubResource("CylinderMesh_5xe87")
+
+[node name="Pillar3" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.359, 1.25496, -0.25)
+mesh = SubResource("CylinderMesh_5xe87")
+
+[node name="MeshInstance3D2" type="MeshInstance3D" parent="."]
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 0.341003, 1.83996, -1.49057e-08)
+mesh = SubResource("PrismMesh_1rwt1")
+
+[node name="MeshInstance3D3" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.44, -11.464, 0)
+mesh = SubResource("BoxMesh_ftw2u")
