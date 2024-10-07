@@ -1,7 +1,8 @@
-[gd_scene load_steps=14 format=3 uid="uid://gib3b7bmu7vq"]
+[gd_scene load_steps=15 format=3 uid="uid://gib3b7bmu7vq"]
 
 [ext_resource type="Script" path="res://src/arena.gd" id="1_2d1np"]
 [ext_resource type="Script" path="res://addons/phantom_camera/scripts/phantom_camera_host/phantom_camera_host.gd" id="2_sa7a4"]
+[ext_resource type="Material" uid="uid://c825ll8mvnmwq" path="res://data/materials/post_processing/dof.material" id="3_57mfx"]
 [ext_resource type="Script" path="res://addons/phantom_camera/scripts/phantom_camera/phantom_camera_3d.gd" id="3_qfict"]
 [ext_resource type="Script" path="res://addons/phantom_camera/scripts/resources/tween_resource.gd" id="4_f2fkr"]
 [ext_resource type="Script" path="res://addons/phantom_camera/scripts/resources/camera_3d_resource.gd" id="5_d8pjb"]
@@ -77,6 +78,15 @@ near = 0.001
 
 [node name="PhantomCameraHost" type="Node" parent="Camera3D"]
 script = ExtResource("2_sa7a4")
+
+[node name="DOF" type="ColorRect" parent="Camera3D"]
+material = ExtResource("3_57mfx")
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = 64.0
+grow_horizontal = 2
+grow_vertical = 2
 
 [node name="IsoCam" type="Node3D" parent="." node_paths=PackedStringArray("follow_target", "follow_targets")]
 transform = Transform3D(0.866025, -0.353553, 0.353553, 0, 0.707107, 0.707107, -0.5, -0.612372, 0.612372, 7.07106, 14.8921, 12.2474)
