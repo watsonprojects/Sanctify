@@ -2,13 +2,9 @@ extends Node3D
 
 class_name Arena
 
-const TILE_SCENE = preload("res://prefabs/themed_blocks/sand_stone/sandstone_tile.tscn")
-const PILLAR = preload("res://prefabs/themed_blocks/sand_stone/sand_stone_pillar.tscn")
-const BEAM = preload("res://prefabs/themed_blocks/sand_stone/sand_stone_pillar_beam.tscn")
-const WALL = preload("res://prefabs/themed_blocks/sand_stone/sand_stone_wall.tscn")
-const DOOR = preload("res://prefabs/themed_blocks/sand_stone/sand_stone_door.tscn")
-const OUTER_WALL = preload("res://prefabs/themed_blocks/sand_stone/sand_stone_outer_wall.tscn")
-const OUTER_WALL_WINDOW = preload("res://prefabs/themed_blocks/sand_stone/sand_stone_outer_wall_window.tscn")
+@export var arena_themes: Array[ArenaTheme] = []
+@export var arena_theme_index: int
+var arena_theme: ArenaTheme
 
 var grid_width = 9
 var grid_length = 9
@@ -29,9 +25,10 @@ var time = 0
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
+	arena_theme = arena_themes[arena_theme_index]
 	arrange_grid()
 	arrange_environment()
-	cursor.move(Vector2i(-1 + grid_length / 2, grid_width - 1))
+	cursor.move(Vector2i(grid_length / 2, grid_width - 1))
 
 
 func _physics_process(delta):
@@ -80,11 +77,16 @@ func _input(event):
 		switch_view()
 
 func arrange_grid():
+	if len(arena_themes) == 0:
+		return
+
+	var tile_resource = load(arena_theme.tile)
+
 	board = []
 	for x in range(grid_length):
 		var row = []
 		for z in range(grid_width):
-			var tile_instance = TILE_SCENE.instantiate()  # Create an instance of the tile scene
+			var tile_instance = tile_resource.instantiate()  # Create an instance of the tile scene
 			row.append(tile_instance.get_node("Tile") as Tile)
 			# Set the tile's position in the grid
 			var _position = Vector3(
@@ -182,80 +184,231 @@ func switch_view():
 		$Camera3D/DOF.visible = true
 
 
-
 func arrange_environment():
-	for y in range(grid_width):
-		if fmod(y, 2) == 0:
-			var pillar_instance = PILLAR.instantiate()  # Create an instance of the tile scene
-			# Set the tile's position in the grid
-			var _position = Vector3(
-				-1,  # X-position based on grid column
-				0,  # Y-position (you can change this if you want to stack tiles)
-				y   # Z-position based on grid row
-			)
-			pillar_instance.position = _position
-			add_child(pillar_instance)
-			
-			var outer_wall_instance = OUTER_WALL.instantiate()  # Create an instance of the tile scene
-			# Set the tile's position in the grid
-			_position = Vector3(
-				-2,  # X-position based on grid column
-				0,  # Y-position (you can change this if you want to stack tiles)
-				y   # Z-position based on grid row
-			)
-			outer_wall_instance.position = _position
-			add_child(outer_wall_instance)
-		else:
-			var beam_instance = BEAM.instantiate()  # Create an instance of the tile scene
-			# Set the tile's position in the grid
-			var _position = Vector3(
-				-1,  # X-position based on grid column
-				0,  # Y-position (you can change this if you want to stack tiles)
-				y   # Z-position based on grid row
-			)
-			beam_instance.position = _position
-			add_child(beam_instance)
-			
-			var outer_wall_window_instance = OUTER_WALL_WINDOW.instantiate()  # Create an instance of the tile scene
-			# Set the tile's position in the grid
-			_position = Vector3(
-				-2,  # X-position based on grid column
-				0,  # Y-position (you can change this if you want to stack tiles)
-				y   # Z-position based on grid row
-			)
-			outer_wall_window_instance.position = _position
-			add_child(outer_wall_window_instance)
+	var north_wall_inner_res: Resource = null
+	var north_wall_inner_alt_res: Resource = null
+	var north_wall_outer_res: Resource = null
+	var north_wall_outer_alt_res: Resource = null
+	var south_wall_res: Resource = null
+	var east_wall_inner_res: Resource = null
+	var east_wall_inner_alt_res: Resource = null
+	var east_wall_outer_res: Resource = null
+	var east_wall_outer_alt_res: Resource = null
+	var west_wall_res: Resource = null
+	var north_door_res: Resource = null
+	var south_door_res: Resource = null
+	var north_east_corner_res: Resource = null
+	var south_east_corner_res: Resource = null
+	var north_west_corner_res: Resource = null
+	var south_west_corner_res: Resource = null
 
-		var wall_instance = WALL.instantiate()  # Create an instance of the tile scene
-		# Set the tile's position in the grid
-		var _position = Vector3(
-			grid_length,  # X-position based on grid column
-			0,  # Y-position (you can change this if you want to stack tiles)
-			y   # Z-position based on grid row
-		)
-		wall_instance.position = _position
-		add_child(wall_instance)
+
+	if ResourceLoader.exists(arena_theme.north_walls_inner_layer):
+		north_wall_inner_res = load(arena_theme.north_walls_inner_layer)
+
+	if ResourceLoader.exists(arena_theme.north_walls_inner_layer_alt):
+		north_wall_inner_alt_res = load(arena_theme.north_walls_inner_layer_alt)
+
+	if ResourceLoader.exists(arena_theme.north_walls_outer_layer):
+		north_wall_outer_res = load(arena_theme.north_walls_outer_layer)
+
+	if ResourceLoader.exists(arena_theme.north_walls_outer_layer_alt):
+		north_wall_outer_alt_res = load(arena_theme.north_walls_outer_layer_alt)
+
+	if ResourceLoader.exists(arena_theme.east_walls_inner_layer):
+		east_wall_inner_res = load(arena_theme.east_walls_inner_layer)
+
+	if ResourceLoader.exists(arena_theme.east_walls_inner_layer_alt):
+		east_wall_inner_alt_res = load(arena_theme.east_walls_inner_layer_alt)
+
+	if ResourceLoader.exists(arena_theme.east_walls_outer_layer):
+		east_wall_outer_res = load(arena_theme.east_walls_outer_layer)
+
+	if ResourceLoader.exists(arena_theme.east_walls_outer_layer_alt):
+		east_wall_outer_alt_res = load(arena_theme.east_walls_outer_layer_alt)
+
+	if ResourceLoader.exists(arena_theme.west_walls):
+		west_wall_res = load(arena_theme.west_walls)
+
+	if ResourceLoader.exists(arena_theme.south_walls):
+		south_wall_res = load(arena_theme.south_walls)
+
+	if ResourceLoader.exists(arena_theme.north_door):
+		north_door_res = load(arena_theme.north_door)
+
+	if ResourceLoader.exists(arena_theme.south_door):
+		south_door_res = load(arena_theme.south_door)
+
+	if ResourceLoader.exists(arena_theme.north_east_corner):
+		north_east_corner_res = load(arena_theme.north_east_corner)
+
+	if ResourceLoader.exists(arena_theme.north_west_corner):
+		north_west_corner_res = load(arena_theme.north_west_corner)
+
+	# Make east inner wall
+	if east_wall_inner_res != null:
+		if east_wall_inner_alt_res != null:
+			var alt = true
+			for y in range(grid_width):
+				alt = !alt
+				if not alt:
+					var east_inner_layer = east_wall_inner_res.instantiate()
+					east_inner_layer.position = Vector3(-1, 0, y)
+					add_child(east_inner_layer)
+				else:
+					var east_inner_layer_alt = east_wall_inner_alt_res.instantiate()
+					east_inner_layer_alt.position = Vector3(-1, 0, y)
+					add_child(east_inner_layer_alt)
+		else:
+			for y in range(grid_width):
+				var east_inner_layer = east_wall_inner_res.instantiate()
+				east_inner_layer.position = Vector3(-1, 0, y)
+				add_child(east_inner_layer)
+
+	# Make east outer wall
+	if east_wall_outer_res != null:
+		if east_wall_outer_alt_res != null:
+			var alt = true
+			for y in range(grid_width):
+				alt = !alt
+				if not alt:
+					var east_outer_layer = east_wall_outer_res.instantiate()
+					east_outer_layer.position = Vector3(-2, 0, y)
+					add_child(east_outer_layer)
+				else:
+					var east_outer_layer_alt = east_wall_outer_alt_res.instantiate()
+					east_outer_layer_alt.position = Vector3(-2, 0, y)
+					add_child(east_outer_layer_alt)
+		else:
+			for y in range(grid_width):
+				var east_outer_layer = east_wall_outer_res.instantiate()
+				east_outer_layer.position = Vector3(-2, 0, y)
+				add_child(east_outer_layer)
+
+	# Make west wall
+	if west_wall_res != null:
+		for y in range(grid_width):
+			var west_wall_layer = west_wall_res.instantiate()
+			west_wall_layer.position = Vector3(grid_length, 0, y)
+			add_child(west_wall_layer)
+
+	#Make south wall
+	if south_wall_res != null:
+		if south_door_res != null:
+			for x in range(grid_length):
+				if x != int(grid_length / 2):
+					var south_wall = south_wall_res.instantiate()
+					south_wall.position = Vector3(x, 0, grid_length)
+					south_wall.rotate_y(-PI / 2)
+					add_child(south_wall)
+				else:
+					var south_door = south_door_res.instantiate()
+					south_door.position = Vector3(x, 0, grid_length)
+					south_door.rotate_y(-PI / 2)
+					add_child(south_door)
+		else:
+			for x in range(grid_length):
+				var south_wall = south_wall_res.instantiate()
+				south_wall.position = Vector3(x, 0, grid_length)
+				south_wall.rotate_y(-PI / 2)
+				add_child(south_wall)
+
+	#for y in range(grid_width):
+		#if fmod(y, 2) == 0:
+			#var west_inner_layer = west_wall_inner_res.instantiate()
+#
+			#var _position = Vector3(
+				#-1,  # X-position based on grid column
+				#0,  # Y-position (you can change this if you want to stack tiles)
+				#y   # Z-position based on grid row
+			#)
+			#west_inner_layer.position = _position
+			#add_child(west_inner_layer)
+			#
+			#var west_wall_outer = west_wall_outer_res.instantiate()  # Create an instance of the tile scene
+			## Set the tile's position in the grid
+			#_position = Vector3(
+				#-2,  # X-position based on grid column
+				#0,  # Y-position (you can change this if you want to stack tiles)
+				#y   # Z-position based on grid row
+			#)
+			#west_wall_outer.position = _position
+			#add_child(west_wall_outer)
+		#else:
+			#var beam_instance = BEAM.instantiate()  # Create an instance of the tile scene
+			## Set the tile's position in the grid
+			#var _position = Vector3(
+				#-1,  # X-position based on grid column
+				#0,  # Y-position (you can change this if you want to stack tiles)
+				#y   # Z-position based on grid row
+			#)
+			#beam_instance.position = _position
+			#add_child(beam_instance)
+			#
+			#var outer_wall_window_instance = OUTER_WALL_WINDOW.instantiate()  # Create an instance of the tile scene
+			## Set the tile's position in the grid
+			#_position = Vector3(
+				#-2,  # X-position based on grid column
+				#0,  # Y-position (you can change this if you want to stack tiles)
+				#y   # Z-position based on grid row
+			#)
+			#outer_wall_window_instance.position = _position
+			#add_child(outer_wall_window_instance)
+#
+		#var wall_instance = WALL.instantiate()  # Create an instance of the tile scene
+		## Set the tile's position in the grid
+		#var _position = Vector3(
+			#grid_length,  # X-position based on grid column
+			#0,  # Y-position (you can change this if you want to stack tiles)
+			#y   # Z-position based on grid row
+		#)
+		#wall_instance.position = _position
+		#add_child(wall_instance)
+#
+	#for x in range(grid_length):
+		#if x != int(grid_length / 2):
+			#var wall_instance = WALL.instantiate()  # Create an instance of the tile scene
+			## Set the tile's position in the grid
+			#var _position = Vector3(
+				#x,  # X-position based on grid column
+				#0,  # Y-position (you can change this if you want to stack tiles)
+				#grid_width   # Z-position based on grid row
+			#)
+			#wall_instance.position = _position
+			#wall_instance.rotate_y(-PI / 2)
+			#add_child(wall_instance)
+		#else:
+			#var door_instance = DOOR.instantiate()  # Create an instance of the tile scene
+			## Set the tile's position in the grid
+			#var _position = Vector3(
+				#x,  # X-position based on grid column
+				#0,  # Y-position (you can change this if you want to stack tiles)
+				#grid_width   # Z-position based on grid row
+			#)
+			#door_instance.position = _position
+			#door_instance.rotate_y(-PI / 2)
+			#add_child(door_instance)
+#
+	#$ReflectionProbe.size = Vector3(grid_length + 2, 20, grid_width + 2)
+	#$ReflectionProbe.position = Vector3((grid_length + 2) / 2, 0, (grid_width + 2) / 2)
+
+func start_ripple_effects():
+	var grid_center = Vector2(grid_length / 2, grid_width / 2)
 
 	for x in range(grid_length):
-		if x != int(grid_length / 2):
-			var wall_instance = WALL.instantiate()  # Create an instance of the tile scene
-			# Set the tile's position in the grid
-			var _position = Vector3(
-				x,  # X-position based on grid column
-				0,  # Y-position (you can change this if you want to stack tiles)
-				grid_width   # Z-position based on grid row
-			)
-			wall_instance.position = _position
-			wall_instance.rotate_y(-PI / 2)
-			add_child(wall_instance)
-		else:
-			var door_instance = DOOR.instantiate()  # Create an instance of the tile scene
-			# Set the tile's position in the grid
-			var _position = Vector3(
-				x,  # X-position based on grid column
-				0,  # Y-position (you can change this if you want to stack tiles)
-				grid_width   # Z-position based on grid row
-			)
-			door_instance.position = _position
-			door_instance.rotate_y(-PI / 2)
-			add_child(door_instance)
+		for y in range(grid_width):
+			# Calculate the distance from the center of the grid
+			var distance = (Vector2(x, y) - grid_center).length()
+			var tile = board[x][y]
+
+			# Animate each cube after a delay based on the distance
+			var tween = Tween.new()
+			add_child(tween)
+
+			await get_tree().create_timer(distance * 0.1).timeout
+
+			# Animate the cube raising up and back down
+			tween.tween_property(tile, "translation:y", 0.1, 0.5)
+			tween.tween_property(tile, "translation:y", tile.transform.origin.y, 0.5)
+
+			tween.start()

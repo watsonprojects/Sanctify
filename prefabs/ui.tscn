@@ -326,14 +326,13 @@ script = ExtResource("2_0te0y")
 [node name="Shadow" type="TextureRect" parent="."]
 custom_minimum_size = Vector2(0, 32)
 layout_mode = 2
-anchor_top = 0.106667
 anchor_right = 1.0
 anchor_bottom = 1.0
+offset_top = 34.7197
 texture = SubResource("GradientTexture2D_8r3mx")
 metadata/_edit_use_anchors_ = true
 
 [node name="Splash" type="Panel" parent="."]
-visible = false
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
