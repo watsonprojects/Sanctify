@@ -98,7 +98,7 @@ script = ExtResource("1_2d1np")
 arena_themes = Array[ExtResource("2_od3yl")]([ExtResource("3_ukhlb")])
 
 [node name="Camera3D" type="Camera3D" parent="."]
-transform = Transform3D(0.866025, -0.383022, 0.321394, 0, 0.642787, 0.766044, -0.5, -0.663413, 0.55667, 6.42788, 16.0709, 11.1334)
+transform = Transform3D(0.866025, -0.383022, 0.321394, 0, 0.642787, 0.766044, -0.5, -0.663413, 0.55667, 6.42788, 15.3209, 11.1334)
 cull_mask = 1048567
 projection = 1
 size = 8.0
@@ -117,7 +117,7 @@ grow_horizontal = 2
 grow_vertical = 2
 
 [node name="IsoCam" type="Node3D" parent="." node_paths=PackedStringArray("follow_target", "follow_targets")]
-transform = Transform3D(0.866025, -0.383022, 0.321394, 0, 0.642787, 0.766044, -0.5, -0.663413, 0.55667, 6.42788, 16.0709, 11.1334)
+transform = Transform3D(0.866025, -0.383022, 0.321394, 0, 0.642787, 0.766044, -0.5, -0.663413, 0.55667, 6.42788, 15.3209, 11.1334)
 script = ExtResource("3_qfict")
 follow_mode = 5
 follow_target = NodePath("../Cursor")
@@ -130,7 +130,7 @@ follow_distance = 20.0
 spring_length = 20.0
 
 [node name="TopCam" type="Node3D" parent="." node_paths=PackedStringArray("follow_target", "follow_targets")]
-transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 0.999999, 0, -0.999999, -4.37114e-08, 0, 20.75, -8.74228e-07)
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 0.999999, 0, -0.999999, -4.37114e-08, 0, 20, -8.74228e-07)
 script = ExtResource("3_qfict")
 follow_mode = 5
 follow_target = NodePath("../Cursor")

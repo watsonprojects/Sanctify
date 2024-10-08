@@ -10,15 +10,19 @@ var grid_width = 9
 var grid_length = 9
 var mines = 8
 
+var total_tiles = 0
+
 var board = []
 var max_flag_count = 8
 var flag_count = 0
 var lost = false
 var board_init = false
 var revealing_multi = false
+var n_revealed = 0
 var top_view = false
 var timer_started = false
 var time = 0
+var game_over = false;
 
 @onready var cursor: Cursor = $Cursor
 @onready var ui: UI = $UI
@@ -37,6 +41,9 @@ func _physics_process(delta):
 		ui.update_time(time)
 
 func _process(delta):
+	if game_over:
+		return
+
 	if Input.get_action_strength("cursor_joy_up") > 0.5:
 		if cursor.target_pos.y > 0:
 			cursor.move(Vector2(0, -1))
@@ -50,7 +57,11 @@ func _process(delta):
 		if cursor.target_pos.x < grid_length - 1:
 			cursor.move(Vector2(1, 0))
 
+
 func _input(event):
+	if game_over:
+		return
+
 	var e = event as InputEvent
 
 	if e.is_action("cursor_up"):
@@ -81,6 +92,8 @@ func arrange_grid():
 		return
 
 	var tile_resource = load(arena_theme.tile)
+
+	total_tiles = grid_length * grid_width
 
 	board = []
 	for x in range(grid_length):
@@ -160,6 +173,13 @@ func reveal_recursive(start_position: Vector2i):
 			continue
 
 		tile.reveal()
+		n_revealed += 1
+
+		if n_revealed + mines == total_tiles:
+			print("GAMEOVER: YOU WON")
+			game_over = true
+			cursor.start_cleansing()
+			$IsoCam.set_priority(1000)
 
 		if tile.get_nearby_mines() > 0:
 			continue
@@ -312,85 +332,9 @@ func arrange_environment():
 				south_wall.position = Vector3(x, 0, grid_length)
 				south_wall.rotate_y(-PI / 2)
 				add_child(south_wall)
-
-	#for y in range(grid_width):
-		#if fmod(y, 2) == 0:
-			#var west_inner_layer = west_wall_inner_res.instantiate()
 #
-			#var _position = Vector3(
-				#-1,  # X-position based on grid column
-				#0,  # Y-position (you can change this if you want to stack tiles)
-				#y   # Z-position based on grid row
-			#)
-			#west_inner_layer.position = _position
-			#add_child(west_inner_layer)
-			#
-			#var west_wall_outer = west_wall_outer_res.instantiate()  # Create an instance of the tile scene
-			## Set the tile's position in the grid
-			#_position = Vector3(
-				#-2,  # X-position based on grid column
-				#0,  # Y-position (you can change this if you want to stack tiles)
-				#y   # Z-position based on grid row
-			#)
-			#west_wall_outer.position = _position
-			#add_child(west_wall_outer)
-		#else:
-			#var beam_instance = BEAM.instantiate()  # Create an instance of the tile scene
-			## Set the tile's position in the grid
-			#var _position = Vector3(
-				#-1,  # X-position based on grid column
-				#0,  # Y-position (you can change this if you want to stack tiles)
-				#y   # Z-position based on grid row
-			#)
-			#beam_instance.position = _position
-			#add_child(beam_instance)
-			#
-			#var outer_wall_window_instance = OUTER_WALL_WINDOW.instantiate()  # Create an instance of the tile scene
-			## Set the tile's position in the grid
-			#_position = Vector3(
-				#-2,  # X-position based on grid column
-				#0,  # Y-position (you can change this if you want to stack tiles)
-				#y   # Z-position based on grid row
-			#)
-			#outer_wall_window_instance.position = _position
-			#add_child(outer_wall_window_instance)
-#
-		#var wall_instance = WALL.instantiate()  # Create an instance of the tile scene
-		## Set the tile's position in the grid
-		#var _position = Vector3(
-			#grid_length,  # X-position based on grid column
-			#0,  # Y-position (you can change this if you want to stack tiles)
-			#y   # Z-position based on grid row
-		#)
-		#wall_instance.position = _position
-		#add_child(wall_instance)
-#
-	#for x in range(grid_length):
-		#if x != int(grid_length / 2):
-			#var wall_instance = WALL.instantiate()  # Create an instance of the tile scene
-			## Set the tile's position in the grid
-			#var _position = Vector3(
-				#x,  # X-position based on grid column
-				#0,  # Y-position (you can change this if you want to stack tiles)
-				#grid_width   # Z-position based on grid row
-			#)
-			#wall_instance.position = _position
-			#wall_instance.rotate_y(-PI / 2)
-			#add_child(wall_instance)
-		#else:
-			#var door_instance = DOOR.instantiate()  # Create an instance of the tile scene
-			## Set the tile's position in the grid
-			#var _position = Vector3(
-				#x,  # X-position based on grid column
-				#0,  # Y-position (you can change this if you want to stack tiles)
-				#grid_width   # Z-position based on grid row
-			#)
-			#door_instance.position = _position
-			#door_instance.rotate_y(-PI / 2)
-			#add_child(door_instance)
-#
-	#$ReflectionProbe.size = Vector3(grid_length + 2, 20, grid_width + 2)
-	#$ReflectionProbe.position = Vector3((grid_length + 2) / 2, 0, (grid_width + 2) / 2)
+	$ReflectionProbe.size = Vector3(grid_length + 2, 20, grid_width + 2)
+	$ReflectionProbe.position = Vector3((grid_length + 2) / 2, 0, (grid_width + 2) / 2)
 
 func start_ripple_effects():
 	var grid_center = Vector2(grid_length / 2, grid_width / 2)
