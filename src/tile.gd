@@ -106,3 +106,6 @@ func show_imperfection():
 
 	imperfection.visible = true
 	return true
+	
+func reveal_mine(destroy=true):
+	fog.visible = false

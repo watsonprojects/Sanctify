@@ -26,3 +26,6 @@ func move(pos: Vector2i):
 		
 func start_cleansing():
 	$CleansingAnimation.play("cleansing")
+
+func start_losing():
+	$CleansingAnimation.play("losing")

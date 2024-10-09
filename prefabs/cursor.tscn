@@ -1,7 +1,8 @@
-[gd_scene load_steps=24 format=3 uid="uid://d2ho5gg1g3mc"]
+[gd_scene load_steps=27 format=3 uid="uid://d2ho5gg1g3mc"]
 
 [ext_resource type="Script" path="res://src/cursor.gd" id="1_g23o2"]
 [ext_resource type="Texture2D" uid="uid://btn3fn8xu0gc7" path="res://data/images/cleansing_circle.png" id="2_gqp8l"]
+[ext_resource type="Texture2D" uid="uid://4b2po6fnjabx" path="res://data/images/losing_circle.png" id="3_6b7xi"]
 [ext_resource type="Texture2D" uid="uid://bho5ebiexfrsi" path="res://data/images/cleansing_circle_bootup.png" id="3_pmkwr"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_gyuei"]
@@ -135,106 +136,6 @@ _data = {
 "pulse": SubResource("Animation_078vl")
 }
 
-[sub_resource type="Animation" id="Animation_pcmcf"]
-resource_name = "cleansing"
-length = 10.0
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath(".:position")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0, 1, 2, 2.93333),
-"transitions": PackedFloat32Array(1, 4.75683, 0.277392, 1),
-"update": 0,
-"values": [Vector3(0, 0.5, 0), Vector3(0, 0.6, 0), Vector3(0, 0, 0), Vector3(0, 0.5, 0)]
-}
-tracks/1/type = "value"
-tracks/1/imported = false
-tracks/1/enabled = true
-tracks/1/path = NodePath("../CleansingPattern:visible")
-tracks/1/interp = 1
-tracks/1/loop_wrap = true
-tracks/1/keys = {
-"times": PackedFloat32Array(0, 2.03333, 2.06667),
-"transitions": PackedFloat32Array(1, 1, 1),
-"update": 1,
-"values": [false, false, true]
-}
-tracks/2/type = "value"
-tracks/2/imported = false
-tracks/2/enabled = true
-tracks/2/path = NodePath("../CleansingPattern/CleansingCircleBoot:scale")
-tracks/2/interp = 1
-tracks/2/loop_wrap = true
-tracks/2/keys = {
-"times": PackedFloat32Array(0, 2.06667, 2.3, 2.33333, 2.36667, 2.6),
-"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1),
-"update": 0,
-"values": [Vector3(1, 1, 1), Vector3(0.01, 0.01, 0.01), Vector3(1, 1, 1), Vector3(0.01, 0.01, 0.01), Vector3(0.01, 0.01, 0.01), Vector3(1, 1, 1)]
-}
-tracks/3/type = "value"
-tracks/3/imported = false
-tracks/3/enabled = true
-tracks/3/path = NodePath("../CleansingPattern/CleansingCircleBoot:material_override:albedo_color")
-tracks/3/interp = 1
-tracks/3/loop_wrap = true
-tracks/3/keys = {
-"times": PackedFloat32Array(2.06667, 2.3, 2.33333, 2.36667, 2.6),
-"transitions": PackedFloat32Array(1, 1, 1, 1, 1),
-"update": 0,
-"values": [Color(1, 1, 1, 1), Color(1, 1, 1, 0), Color(1, 1, 1, 0), Color(1, 1, 1, 1), Color(1, 1, 1, 0)]
-}
-tracks/4/type = "value"
-tracks/4/imported = false
-tracks/4/enabled = true
-tracks/4/path = NodePath("../CleansingPattern/CleansingCircle:visible")
-tracks/4/interp = 1
-tracks/4/loop_wrap = true
-tracks/4/keys = {
-"times": PackedFloat32Array(2.53333, 2.56667),
-"transitions": PackedFloat32Array(1, 1),
-"update": 1,
-"values": [false, true]
-}
-tracks/5/type = "value"
-tracks/5/imported = false
-tracks/5/enabled = true
-tracks/5/path = NodePath("../CleansingPattern/CleansingCircle:scale")
-tracks/5/interp = 1
-tracks/5/loop_wrap = true
-tracks/5/keys = {
-"times": PackedFloat32Array(2.56667, 2.86667),
-"transitions": PackedFloat32Array(0.406126, 1),
-"update": 0,
-"values": [Vector3(0.01, 0.01, 0.01), Vector3(1, 1, 1)]
-}
-tracks/6/type = "value"
-tracks/6/imported = false
-tracks/6/enabled = true
-tracks/6/path = NodePath("../CleansingPattern/CleansingCircle:rotation")
-tracks/6/interp = 1
-tracks/6/loop_wrap = true
-tracks/6/keys = {
-"times": PackedFloat32Array(0, 9.06667),
-"transitions": PackedFloat32Array(1, 1),
-"update": 0,
-"values": [Vector3(0, 0, 0), Vector3(0, 6.44026, 0)]
-}
-tracks/7/type = "value"
-tracks/7/imported = false
-tracks/7/enabled = true
-tracks/7/path = NodePath("../CleansingPattern/OmniLight3D:light_energy")
-tracks/7/interp = 1
-tracks/7/loop_wrap = true
-tracks/7/keys = {
-"times": PackedFloat32Array(0, 2.56667, 2.86667),
-"transitions": PackedFloat32Array(1, 1, 1),
-"update": 0,
-"values": [0.0, 0.0, 2.0]
-}
-
 [sub_resource type="Animation" id="Animation_j70dk"]
 length = 0.001
 tracks/0/type = "value"
@@ -247,7 +148,7 @@ tracks/0/keys = {
 "times": PackedFloat32Array(0),
 "transitions": PackedFloat32Array(1),
 "update": 0,
-"values": [Vector3(0, 0.5, 0)]
+"values": [Vector3(0, 0.3, 0)]
 }
 tracks/1/type = "value"
 tracks/1/imported = false
@@ -333,11 +234,248 @@ tracks/7/keys = {
 "update": 0,
 "values": [0.0]
 }
+tracks/8/type = "value"
+tracks/8/imported = false
+tracks/8/enabled = true
+tracks/8/path = NodePath("../CleansingPattern/LosingCircle:visible")
+tracks/8/interp = 1
+tracks/8/loop_wrap = true
+tracks/8/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
+}
+
+[sub_resource type="Animation" id="Animation_pcmcf"]
+resource_name = "cleansing"
+length = 10.0
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 1, 2, 2.93333),
+"transitions": PackedFloat32Array(1, 4.75683, 0.277392, 1),
+"update": 0,
+"values": [Vector3(0, 0.3, 0), Vector3(0, 0.4, 0), Vector3(0, 0, 0), Vector3(0, 0.5, 0)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("../CleansingPattern:visible")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 2.03333, 2.06667),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 1,
+"values": [false, false, true]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("../CleansingPattern/CleansingCircleBoot:scale")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0, 2.06667, 2.3, 2.33333, 2.36667, 2.6),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1),
+"update": 0,
+"values": [Vector3(1, 1, 1), Vector3(0.01, 0.01, 0.01), Vector3(1.5, 1.5, 1.5), Vector3(0.01, 0.01, 0.01), Vector3(0.01, 0.01, 0.01), Vector3(1.5, 1.5, 1.5)]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("../CleansingPattern/CleansingCircleBoot:material_override:albedo_color")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(2.06667, 2.3, 2.33333, 2.36667, 2.6),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 1), Color(1, 1, 1, 0), Color(1, 1, 1, 0), Color(1, 1, 1, 1), Color(1, 1, 1, 0)]
+}
+tracks/4/type = "value"
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/path = NodePath("../CleansingPattern/CleansingCircle:visible")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/keys = {
+"times": PackedFloat32Array(2.53333, 2.56667),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [false, true]
+}
+tracks/5/type = "value"
+tracks/5/imported = false
+tracks/5/enabled = true
+tracks/5/path = NodePath("../CleansingPattern/CleansingCircle:scale")
+tracks/5/interp = 1
+tracks/5/loop_wrap = true
+tracks/5/keys = {
+"times": PackedFloat32Array(2.56667, 2.86667),
+"transitions": PackedFloat32Array(0.406126, 1),
+"update": 0,
+"values": [Vector3(0.01, 0.01, 0.01), Vector3(1, 1, 1)]
+}
+tracks/6/type = "value"
+tracks/6/imported = false
+tracks/6/enabled = true
+tracks/6/path = NodePath("../CleansingPattern/CleansingCircle:rotation")
+tracks/6/interp = 1
+tracks/6/loop_wrap = true
+tracks/6/keys = {
+"times": PackedFloat32Array(0, 10),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector3(0, 0, 0), Vector3(0, 6.44026, 0)]
+}
+tracks/7/type = "value"
+tracks/7/imported = false
+tracks/7/enabled = true
+tracks/7/path = NodePath("../CleansingPattern/OmniLight3D:light_energy")
+tracks/7/interp = 1
+tracks/7/loop_wrap = true
+tracks/7/keys = {
+"times": PackedFloat32Array(0, 2.56667, 2.86667),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [0.0, 0.0, 2.0]
+}
+tracks/8/type = "value"
+tracks/8/imported = false
+tracks/8/enabled = true
+tracks/8/path = NodePath("../CleansingPattern/LosingCircle:visible")
+tracks/8/interp = 1
+tracks/8/loop_wrap = true
+tracks/8/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
+}
+
+[sub_resource type="Animation" id="Animation_2rnvm"]
+resource_name = "losing"
+length = 10.0
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 1, 2, 2.93333),
+"transitions": PackedFloat32Array(1, 4.75683, 0.277392, 1),
+"update": 0,
+"values": [Vector3(0, 0.3, 0), Vector3(0, 0.4, 0), Vector3(0, 0, 0), Vector3(0, 0.5, 0)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("../CleansingPattern:visible")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 2.03333, 2.06667),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 1,
+"values": [false, false, true]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("../CleansingPattern/CleansingCircleBoot:scale")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0, 2.06667, 2.3, 2.33333, 2.36667, 2.6),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1),
+"update": 0,
+"values": [Vector3(1, 1, 1), Vector3(0.01, 0.01, 0.01), Vector3(1.5, 1.5, 1.5), Vector3(0.01, 0.01, 0.01), Vector3(0.01, 0.01, 0.01), Vector3(1.5, 1.5, 1.5)]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("../CleansingPattern/CleansingCircleBoot:material_override:albedo_color")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(2.06667, 2.3, 2.33333, 2.36667, 2.6),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 1), Color(1, 1, 1, 0), Color(1, 1, 1, 0), Color(1, 0, 0, 1), Color(1, 1, 1, 0)]
+}
+tracks/4/type = "value"
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/path = NodePath("../CleansingPattern/LosingCircle:visible")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/keys = {
+"times": PackedFloat32Array(2.53333, 2.56667),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [false, true]
+}
+tracks/5/type = "value"
+tracks/5/imported = false
+tracks/5/enabled = true
+tracks/5/path = NodePath("../CleansingPattern/LosingCircle:scale")
+tracks/5/interp = 1
+tracks/5/loop_wrap = true
+tracks/5/keys = {
+"times": PackedFloat32Array(2.56667, 2.86667),
+"transitions": PackedFloat32Array(0.406126, 1),
+"update": 0,
+"values": [Vector3(0.01, 0.01, 0.01), Vector3(1, 1, 1)]
+}
+tracks/6/type = "value"
+tracks/6/imported = false
+tracks/6/enabled = true
+tracks/6/path = NodePath("../CleansingPattern/LosingCircle:rotation")
+tracks/6/interp = 1
+tracks/6/loop_wrap = true
+tracks/6/keys = {
+"times": PackedFloat32Array(0, 10),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector3(0, 0, 0), Vector3(0, 6.44026, 0)]
+}
+tracks/7/type = "value"
+tracks/7/imported = false
+tracks/7/enabled = true
+tracks/7/path = NodePath("../CleansingPattern/OmniLight3D:light_energy")
+tracks/7/interp = 1
+tracks/7/loop_wrap = true
+tracks/7/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [0.0]
+}
+tracks/8/type = "value"
+tracks/8/imported = false
+tracks/8/enabled = true
+tracks/8/path = NodePath("../CleansingPattern/CleansingCircle:visible")
+tracks/8/interp = 1
+tracks/8/loop_wrap = true
+tracks/8/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
+}
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_8k8ed"]
 _data = {
 "RESET": SubResource("Animation_j70dk"),
-"cleansing": SubResource("Animation_pcmcf")
+"cleansing": SubResource("Animation_pcmcf"),
+"losing": SubResource("Animation_2rnvm")
 }
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_8msof"]
@@ -354,6 +492,17 @@ disable_receive_shadows = true
 [sub_resource type="PlaneMesh" id="PlaneMesh_8dhyo"]
 size = Vector2(4, 4)
 
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_11k4a"]
+transparency = 1
+blend_mode = 1
+no_depth_test = true
+shading_mode = 0
+diffuse_mode = 3
+specular_mode = 2
+disable_ambient_light = true
+albedo_texture = ExtResource("3_6b7xi")
+disable_receive_shadows = true
+
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_oktoc"]
 transparency = 1
 blend_mode = 1
@@ -368,7 +517,7 @@ albedo_texture = ExtResource("3_pmkwr")
 script = ExtResource("1_g23o2")
 
 [node name="CursorMesh" type="MeshInstance3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.3, 0)
 layers = 16
 material_override = SubResource("StandardMaterial3D_gyuei")
 cast_shadow = 0
@@ -432,6 +581,14 @@ cast_shadow = 0
 mesh = SubResource("PlaneMesh_8dhyo")
 skeleton = NodePath("../../CursorMesh")
 
+[node name="LosingCircle" type="MeshInstance3D" parent="CleansingPattern"]
+transform = Transform3D(0.01, 0, 0, 0, 0.01, 0, 0, 0, 0.01, 0, 0.1, 0)
+visible = false
+material_override = SubResource("StandardMaterial3D_11k4a")
+cast_shadow = 0
+mesh = SubResource("PlaneMesh_8dhyo")
+skeleton = NodePath("../../CursorMesh")
+
 [node name="CleansingCircleBoot" type="MeshInstance3D" parent="CleansingPattern"]
 transform = Transform3D(0.01, 0, 0, 0, 0.01, 0, 0, 0, 0.01, 0, 0.1, 0)
 material_override = SubResource("StandardMaterial3D_oktoc")
@@ -439,11 +596,11 @@ cast_shadow = 0
 mesh = SubResource("PlaneMesh_8dhyo")
 skeleton = NodePath("../../CursorMesh")
 
-[node name="OmniLight3D" type="OmniLight3D" parent="CleansingPattern"]
+[node name="OmniLight3D" type="SpotLight3D" parent="CleansingPattern"]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 1, 0)
 light_color = Color(0.976631, 0.703403, 0.296172, 1)
 light_energy = 0.0
-omni_range = 20.0
-omni_attenuation = 0.103
-omni_shadow_mode = 0
+spot_angle = 89.0
+spot_angle_attenuation = 0.129408
 
 [connection signal="timeout" from="PulseAnimation/Timer" to="PulseAnimation" method="play" binds= ["pulse"]]

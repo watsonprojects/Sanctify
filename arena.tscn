@@ -1,4 +1,4 @@
-[gd_scene load_steps=19 format=3 uid="uid://gib3b7bmu7vq"]
+[gd_scene load_steps=21 format=3 uid="uid://gib3b7bmu7vq"]
 
 [ext_resource type="Script" path="res://src/arena.gd" id="1_2d1np"]
 [ext_resource type="Script" path="res://src/arena_theme.gd" id="2_od3yl"]
@@ -71,26 +71,70 @@ fog_height_density = 0.7356
 fog_depth_begin = 0.0
 fog_depth_end = 2828.2
 
-[sub_resource type="Animation" id="Animation_0kdmn"]
-resource_name = "begin"
-tracks/0/type = "method"
+[sub_resource type="Animation" id="Animation_sjq3b"]
+length = 0.001
+tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
-tracks/0/path = NodePath(".")
+tracks/0/path = NodePath(".:pulse_effect_strength")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
-"times": PackedFloat32Array(0.8),
+"times": PackedFloat32Array(0),
 "transitions": PackedFloat32Array(1),
-"values": [{
-"args": [],
-"method": &"start_ripple_effects"
-}]
+"update": 0,
+"values": [0.0]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath(".:pulse_effect_radius")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [0.0]
+}
+
+[sub_resource type="Animation" id="Animation_0kdmn"]
+resource_name = "begin"
+length = 5.0
+
+[sub_resource type="Animation" id="Animation_56tit"]
+resource_name = "destruct"
+length = 10.0
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:pulse_effect_strength")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(4, 4.66667, 6.33333),
+"transitions": PackedFloat32Array(1, 1.7411, 1),
+"update": 0,
+"values": [0.0, 1.0, 0.0]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath(".:pulse_effect_radius")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(4, 6.36667),
+"transitions": PackedFloat32Array(0.517632, 1),
+"update": 0,
+"values": [0.0, 7.0]
 }
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_ny8qp"]
 _data = {
-"begin": SubResource("Animation_0kdmn")
+"RESET": SubResource("Animation_sjq3b"),
+"begin": SubResource("Animation_0kdmn"),
+"destruct": SubResource("Animation_56tit")
 }
 
 [node name="Arena" type="Node3D"]

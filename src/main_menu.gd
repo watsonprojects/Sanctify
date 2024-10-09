@@ -17,6 +17,8 @@ func _ready():
 		theme = dark_theme
 	else:
 		theme = light_theme
+		
+	preload("res://arena.tscn")
 
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.

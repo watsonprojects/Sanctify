@@ -2,8 +2,8 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://btn3fn8xu0gc7"
-path.s3tc="res://.godot/imported/cleansing_circle.png-1a9e5373cedd9bb7aa6d29dbeebb9b04.s3tc.ctex"
+uid="uid://4b2po6fnjabx"
+path.s3tc="res://.godot/imported/losing_circle.png-328d667d020bb0e25426cb3add297454.s3tc.ctex"
 metadata={
 "imported_formats": ["s3tc_bptc"],
 "vram_texture": true
@@ -11,8 +11,8 @@ metadata={
 
 [deps]
 
-source_file="res://data/images/cleansing_circle.png"
-dest_files=["res://.godot/imported/cleansing_circle.png-1a9e5373cedd9bb7aa6d29dbeebb9b04.s3tc.ctex"]
+source_file="res://data/images/losing_circle.png"
+dest_files=["res://.godot/imported/losing_circle.png-328d667d020bb0e25426cb3add297454.s3tc.ctex"]
 
 [params]
 
@@ -26,7 +26,7 @@ mipmaps/generate=true
 mipmaps/limit=-1
 roughness/mode=0
 roughness/src_normal=""
-process/fix_alpha_border=false
+process/fix_alpha_border=true
 process/premult_alpha=false
 process/normal_map_invert_y=false
 process/hdr_as_srgb=false

@@ -1,11 +1,15 @@
-[gd_scene load_steps=30 format=3 uid="uid://5iadts1xwhdp"]
+[gd_scene load_steps=36 format=3 uid="uid://5iadts1xwhdp"]
 
 [ext_resource type="Theme" uid="uid://cias33btpdsig" path="res://data/elementary_light.theme" id="1_1jwnf"]
 [ext_resource type="Script" path="res://src/ui.gd" id="2_0te0y"]
 [ext_resource type="Texture2D" uid="uid://ts2oev1wvlgn" path="res://data/images/logo.png" id="3_ha06d"]
 [ext_resource type="FontFile" uid="uid://c1u1jepk1xnx1" path="res://data/fonts/static/Inter_24pt-Light.ttf" id="4_3ymr7"]
+[ext_resource type="Texture2D" uid="uid://btn3fn8xu0gc7" path="res://data/images/cleansing_circle.png" id="5_humke"]
+[ext_resource type="FontFile" uid="uid://bpl0fqowlbw8h" path="res://data/fonts/static/Cinzel-VariableFont_wght.ttf" id="5_i3maw"]
 [ext_resource type="FontFile" uid="uid://bd5bg8ilefl3k" path="res://data/fonts/static/Inter_18pt-Medium.ttf" id="5_w5ayn"]
+[ext_resource type="Texture2D" uid="uid://4b2po6fnjabx" path="res://data/images/losing_circle.png" id="6_02o20"]
 [ext_resource type="FontFile" uid="uid://yv1jlquoy7e7" path="res://data/fonts/static/Inter_18pt-Regular.ttf" id="6_g34ns"]
+[ext_resource type="FontFile" uid="uid://b47ipy6hmu1r8" path="res://data/fonts/static/Inter_18pt-Bold.ttf" id="6_kh46d"]
 [ext_resource type="Texture2D" uid="uid://bo6l34gkevpbn" path="res://data/icons/preferences-system-time.svg" id="7_dj5ew"]
 [ext_resource type="Texture2D" uid="uid://qdh1aexru1tc" path="res://data/icons/edit-flag.svg" id="8_klmjy"]
 
@@ -76,6 +80,42 @@ tracks/3/keys = {
 "update": 0,
 "values": [Color(0.87, 0.7917, 0.609, 0)]
 }
+tracks/4/type = "value"
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/path = NodePath("PostGame:visible")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
+}
+tracks/5/type = "value"
+tracks/5/imported = false
+tracks/5/enabled = true
+tracks/5/path = NodePath("PostGame:modulate")
+tracks/5/interp = 1
+tracks/5/loop_wrap = true
+tracks/5/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(1, 1, 1, 0)]
+}
+tracks/6/type = "value"
+tracks/6/imported = false
+tracks/6/enabled = true
+tracks/6/path = NodePath("PostGame:mouse_filter")
+tracks/6/interp = 1
+tracks/6/loop_wrap = true
+tracks/6/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [2]
+}
 
 [sub_resource type="Animation" id="Animation_2ei4f"]
 resource_name = "splash"
@@ -129,11 +169,54 @@ tracks/3/keys = {
 "values": [Color(0.87, 0.7917, 0.609, 0), Color(0.87, 0.7917, 0.609, 0), Color(0.87, 0.7917, 0.609, 1)]
 }
 
+[sub_resource type="Animation" id="Animation_fxxy2"]
+resource_name = "end_game"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("PostGame:visible")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.0666667),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [false, true]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("PostGame:modulate")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 1),
+"transitions": PackedFloat32Array(0.31864, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 0), Color(1, 1, 1, 1)]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("PostGame:mouse_filter")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0, 0.5),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [2, 0]
+}
+
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_0jvl7"]
 _data = {
 "RESET": SubResource("Animation_1dsjw"),
+"end_game": SubResource("Animation_fxxy2"),
 "splash": SubResource("Animation_2ei4f")
 }
+
+[sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_qw0wg"]
+blend_mode = 1
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_a15uu"]
 content_margin_top = 4.0
@@ -403,8 +486,14 @@ wait_time = 0.1
 one_shot = true
 autostart = true
 
+[node name="EndTimer" type="Timer" parent="AnimationPlayer"]
+process_callback = 0
+wait_time = 6.0
+one_shot = true
+
 [node name="PostGame" type="Panel" parent="."]
 visible = false
+modulate = Color(1, 1, 1, 0)
 layout_mode = 1
 anchors_preset = -1
 anchor_top = 0.106667
@@ -412,7 +501,98 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+mouse_filter = 2
 metadata/_edit_use_anchors_ = true
+
+[node name="WinningTexture" type="TextureRect" parent="PostGame"]
+visible = false
+modulate = Color(1, 1, 1, 0.054902)
+material = SubResource("CanvasItemMaterial_qw0wg")
+layout_mode = 1
+anchors_preset = -1
+anchor_left = -0.12
+anchor_top = -0.56903
+anchor_right = 0.6375
+anchor_bottom = 0.561567
+texture = ExtResource("5_humke")
+expand_mode = 1
+stretch_mode = 4
+metadata/_edit_use_anchors_ = true
+
+[node name="LosingTexture" type="TextureRect" parent="PostGame"]
+visible = false
+modulate = Color(1, 1, 1, 0.168627)
+material = SubResource("CanvasItemMaterial_qw0wg")
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.39
+anchor_top = 0.423507
+anchor_right = 1.1475
+anchor_bottom = 1.5541
+texture = ExtResource("6_02o20")
+expand_mode = 1
+stretch_mode = 4
+metadata/_edit_use_anchors_ = true
+
+[node name="VBoxContainer" type="VBoxContainer" parent="PostGame"]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -153.0
+offset_top = -45.9999
+offset_right = 153.0
+offset_bottom = 46.0001
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="FinalLabel" type="Label" parent="PostGame/VBoxContainer"]
+layout_mode = 2
+theme_override_colors/font_shadow_color = Color(0.64, 0.50752, 0.2944, 0.407843)
+theme_override_constants/shadow_offset_y = 4
+theme_override_fonts/font = ExtResource("5_i3maw")
+theme_override_font_sizes/font_size = 48
+text = "You wiN"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="StoryLabel" type="Label" parent="PostGame/VBoxContainer"]
+custom_minimum_size = Vector2(0, 24)
+layout_mode = 2
+horizontal_alignment = 1
+vertical_alignment = 1
+autowrap_mode = 2
+
+[node name="StatusLabel" type="Label" parent="PostGame/VBoxContainer"]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("6_kh46d")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="MarginContainer" type="MarginContainer" parent="PostGame/VBoxContainer"]
+layout_mode = 2
+theme_override_constants/margin_top = 8
+
+[node name="BackButton" type="Button" parent="PostGame/VBoxContainer"]
+custom_minimum_size = Vector2(0, 28)
+layout_mode = 2
+text = "Go Back"
+
+[node name="Gradient" type="TextureRect" parent="PostGame/VBoxContainer/BackButton"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 1.0
+offset_top = 1.0
+offset_right = -1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = SubResource("Theme_rd2qt")
+texture = SubResource("GradientTexture2D_tht0n")
+expand_mode = 1
 
 [node name="VBoxContainer" type="VBoxContainer" parent="."]
 layout_mode = 1
@@ -564,6 +744,8 @@ layout_mode = 2
 color = Color(0, 0, 0, 0.466667)
 
 [connection signal="timeout" from="AnimationPlayer/Timer" to="AnimationPlayer" method="play" binds= ["splash"]]
+[connection signal="timeout" from="AnimationPlayer/EndTimer" to="AnimationPlayer" method="play" binds= ["end_game"]]
+[connection signal="pressed" from="PostGame/VBoxContainer/BackButton" to="." method="go_back"]
 [connection signal="pressed" from="VBoxContainer/UI/ButtonBox/Button" to="." method="start_over"]
 [connection signal="pressed" from="VBoxContainer/UI/ButtonBox/Button2" to="." method="give_up"]
 [connection signal="pressed" from="VBoxContainer/UI/ButtonBox/Button3" to="." method="switch_view"]

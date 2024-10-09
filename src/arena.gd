@@ -24,6 +24,10 @@ var timer_started = false
 var time = 0
 var game_over = false;
 
+@export var pulse_effect_strength: float = 0
+@export var pulse_effect_radius: float = 0
+var pulse_effect_center: Vector2
+
 @onready var cursor: Cursor = $Cursor
 @onready var ui: UI = $UI
 
@@ -36,9 +40,20 @@ func _ready():
 
 
 func _physics_process(delta):
-	if timer_started:
+	if timer_started and not game_over:
 		time += delta
 		ui.update_time(time)
+	
+	if pulse_effect_strength > 0:
+		for x in range(grid_length):
+			for y in range(grid_width):
+				var distance = (Vector2(x, y) - pulse_effect_center).length()
+				var tile = board[x][y] as Tile
+				if clamp(1 - abs(distance - pulse_effect_radius), 0, 1) > 0.5:
+					tile.reveal_mine(lost)
+				
+				if lost:
+					tile.get_parent().get_node("TileMesh").position.y = clamp(1 - abs(distance - pulse_effect_radius), 0, 1) * pulse_effect_strength
 
 func _process(delta):
 	if game_over:
@@ -148,6 +163,10 @@ func reveal_recursive(start_position: Vector2i):
 
 	if (board[start_position.x][start_position.y] as Tile).is_mine:
 		print("YOU LOST")
+		cursor.start_losing()
+		game_over = true
+		start_ripple_effects((board[start_position.x][start_position.y] as Tile).board_pos)
+		ui.lose(arena_theme.opponent + "'curse has been triggered. The Pantheon has been destroyed", total_tiles - n_revealed)
 		return
 
 	# Add the first clicked cell to the queue
@@ -179,6 +198,8 @@ func reveal_recursive(start_position: Vector2i):
 			print("GAMEOVER: YOU WON")
 			game_over = true
 			cursor.start_cleansing()
+			start_ripple_effects(tile.board_pos)
+			ui.win("You have cleansed the divine pantheon. " + arena_theme.opponent + "'s curse has been lifted!", time)
 			$IsoCam.set_priority(1000)
 
 		if tile.get_nearby_mines() > 0:
@@ -336,23 +357,7 @@ func arrange_environment():
 	$ReflectionProbe.size = Vector3(grid_length + 2, 20, grid_width + 2)
 	$ReflectionProbe.position = Vector3((grid_length + 2) / 2, 0, (grid_width + 2) / 2)
 
-func start_ripple_effects():
-	var grid_center = Vector2(grid_length / 2, grid_width / 2)
-
-	for x in range(grid_length):
-		for y in range(grid_width):
-			# Calculate the distance from the center of the grid
-			var distance = (Vector2(x, y) - grid_center).length()
-			var tile = board[x][y]
-
-			# Animate each cube after a delay based on the distance
-			var tween = Tween.new()
-			add_child(tween)
-
-			await get_tree().create_timer(distance * 0.1).timeout
-
-			# Animate the cube raising up and back down
-			tween.tween_property(tile, "translation:y", 0.1, 0.5)
-			tween.tween_property(tile, "translation:y", tile.transform.origin.y, 0.5)
-
-			tween.start()
+func start_ripple_effects(center: Vector2i):
+	pulse_effect_center = Vector2(center.x, center.y)
+	$AnimationPlayer.play("destruct")
+	

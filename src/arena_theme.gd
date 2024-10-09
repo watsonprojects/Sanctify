@@ -2,6 +2,8 @@ extends Resource
 
 class_name ArenaTheme
 
+@export var opponent: String
+
 @export_group("Ambience")
 @export var volumetric_color: Color
 @export var sky: Sky
