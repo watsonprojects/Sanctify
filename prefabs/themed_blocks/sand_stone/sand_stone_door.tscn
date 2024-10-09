@@ -1,13 +1,13 @@
 [gd_scene load_steps=6 format=3 uid="uid://b154lmrqrqsoc"]
 
 [sub_resource type="BoxMesh" id="BoxMesh_jsyq1"]
-size = Vector3(1, 2, 1)
+size = Vector3(1, 1.5, 1)
 
 [sub_resource type="BoxMesh" id="BoxMesh_pnp61"]
 size = Vector3(0.1, 20, 1)
 
 [sub_resource type="PrismMesh" id="PrismMesh_bvr4i"]
-size = Vector3(1.235, 0.23, 0.405)
+size = Vector3(1, 0.23, 0.405)
 
 [sub_resource type="BoxMesh" id="BoxMesh_wmicy"]
 size = Vector3(0.25, 1, 0.25)

@@ -320,6 +320,12 @@ func arrange_environment():
 	if ResourceLoader.exists(arena_theme.north_west_corner):
 		north_west_corner_res = load(arena_theme.north_west_corner)
 
+	if ResourceLoader.exists(arena_theme.south_east_corner):
+		south_east_corner_res = load(arena_theme.south_east_corner)
+
+	if ResourceLoader.exists(arena_theme.south_west_corner):
+		south_west_corner_res = load(arena_theme.south_west_corner)
+
 	# Make east inner wall
 	if east_wall_inner_res != null:
 		if east_wall_inner_alt_res != null:
@@ -388,6 +394,13 @@ func arrange_environment():
 				south_wall.rotate_y(-PI / 2)
 				add_child(south_wall)
 #
+	#Make south-west corner
+	if south_west_corner_res != null:
+		var south_west_corner = south_west_corner_res.instantiate()
+		south_west_corner.position = Vector3(grid_length, 0, grid_width)
+		south_west_corner.rotate_y(-PI / 2)
+		add_child(south_west_corner)
+		
 	$ReflectionProbe.size = Vector3(grid_length + 2, 20, grid_width + 2)
 	$ReflectionProbe.position = Vector3((grid_length + 2) / 2, 0, (grid_width + 2) / 2)
 

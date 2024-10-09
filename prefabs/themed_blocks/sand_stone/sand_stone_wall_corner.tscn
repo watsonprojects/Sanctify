@@ -1,0 +1,32 @@
+[gd_scene load_steps=5 format=3 uid="uid://ckslmkhh480x8"]
+
+[sub_resource type="BoxMesh" id="BoxMesh_jsyq1"]
+size = Vector3(1, 1.5, 1)
+
+[sub_resource type="BoxMesh" id="BoxMesh_yvq4t"]
+size = Vector3(0.1, 20, 0.8)
+
+[sub_resource type="BoxMesh" id="BoxMesh_ftw2u"]
+size = Vector3(0.32, 20, 0.395)
+
+[sub_resource type="BoxMesh" id="BoxMesh_hpjp0"]
+size = Vector3(0.1, 20, 0.86)
+
+[node name="Wall" type="MeshInstance3D"]
+mesh = SubResource("BoxMesh_jsyq1")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.301, -7.996, 0.095)
+mesh = SubResource("BoxMesh_yvq4t")
+
+[node name="MeshInstance3D3" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.44, -11.464, 0)
+mesh = SubResource("BoxMesh_ftw2u")
+
+[node name="MeshInstance3D2" type="MeshInstance3D" parent="."]
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, -0.0720703, -7.99673, -0.300451)
+mesh = SubResource("BoxMesh_hpjp0")
+
+[node name="MeshInstance3D4" type="MeshInstance3D" parent="."]
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 0, -11.464, -0.44)
+mesh = SubResource("BoxMesh_ftw2u")
