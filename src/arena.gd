@@ -165,6 +165,7 @@ func reveal_recursive(start_position: Vector2i):
 		print("YOU LOST")
 		cursor.start_losing()
 		game_over = true
+		lost = true
 		start_ripple_effects((board[start_position.x][start_position.y] as Tile).board_pos)
 		ui.lose(arena_theme.opponent + "'curse has been triggered. The Pantheon has been destroyed", total_tiles - n_revealed)
 		return
