@@ -48,14 +48,12 @@ func reveal():
 
 	if not arena.lost and is_mine:
 		arena.lost = true
-		print("You lost")
 	else:
 		revealed = true
 		flag_node.visible = false
 		if fog != null:
 			fog.visible = false
 		nearby_mines = get_nearby_mines()
-		print(nearby_mines)
 		update_hint()
 
 func update_hint():
@@ -106,6 +104,6 @@ func show_imperfection():
 
 	imperfection.visible = true
 	return true
-	
+
 func reveal_mine(destroy=true):
 	fog.visible = false

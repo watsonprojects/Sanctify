@@ -5,7 +5,7 @@
 [resource]
 script = ExtResource("1_oyelt")
 opponent = "Hades"
-volumetric_color = Color(0.35758, 0.57, 0.2736, 0.32549)
+volumetric_color = Color(0.831373, 0.556863, 0.0823529, 1)
 ambient_sound_loop = ""
 dust_particles = ""
 tile = "res://prefabs/themed_blocks/sand_stone/sandstone_tile.tscn"

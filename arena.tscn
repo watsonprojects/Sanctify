@@ -1,4 +1,4 @@
-[gd_scene load_steps=21 format=3 uid="uid://gib3b7bmu7vq"]
+[gd_scene load_steps=23 format=3 uid="uid://gib3b7bmu7vq"]
 
 [ext_resource type="Script" path="res://src/arena.gd" id="1_2d1np"]
 [ext_resource type="Script" path="res://src/arena_theme.gd" id="2_od3yl"]
@@ -10,6 +10,24 @@
 [ext_resource type="Script" path="res://addons/phantom_camera/scripts/resources/camera_3d_resource.gd" id="5_d8pjb"]
 [ext_resource type="PackedScene" uid="uid://d2ho5gg1g3mc" path="res://prefabs/cursor.tscn" id="7_xb0cn"]
 [ext_resource type="PackedScene" uid="uid://5iadts1xwhdp" path="res://prefabs/ui.tscn" id="8_3nbxp"]
+
+[sub_resource type="Resource" id="Resource_xo2et"]
+script = ExtResource("4_f2fkr")
+duration = 3.0
+transition = 7
+ease = 2
+
+[sub_resource type="Resource" id="Resource_72ah3"]
+script = ExtResource("5_d8pjb")
+cull_mask = 1048567
+h_offset = 0.0
+v_offset = 0.0
+projection = 1
+fov = 75.0
+size = 6.0
+frustum_offset = Vector2(0, 0)
+near = 0.05
+far = 4000.0
 
 [sub_resource type="Resource" id="Resource_b5xt7"]
 script = ExtResource("4_f2fkr")
@@ -115,7 +133,7 @@ tracks/0/keys = {
 "times": PackedFloat32Array(4, 4.66667, 5.43333),
 "transitions": PackedFloat32Array(1, 1.7411, 1),
 "update": 0,
-"values": [0.0, 0.5, 0.0]
+"values": [0.0, 0.5, 0.001]
 }
 tracks/1/type = "value"
 tracks/1/imported = false
@@ -127,7 +145,7 @@ tracks/1/keys = {
 "times": PackedFloat32Array(4, 6.03333),
 "transitions": PackedFloat32Array(0.517632, 1),
 "update": 0,
-"values": [0.0, 6.0]
+"values": [0.0, 7.0]
 }
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_ny8qp"]
@@ -142,11 +160,10 @@ script = ExtResource("1_2d1np")
 arena_themes = Array[ExtResource("2_od3yl")]([ExtResource("3_ukhlb")])
 
 [node name="Camera3D" type="Camera3D" parent="."]
-transform = Transform3D(0.866025, -0.383022, 0.321394, 0, 0.642787, 0.766044, -0.5, -0.663413, 0.55667, 6.42788, 15.3209, 11.1334)
+transform = Transform3D(0.707106, -0.499999, 0.5, 0, 0.707106, 0.707106, -0.707106, -0.499999, 0.5, 10, 14.1421, 10)
 cull_mask = 1048567
 projection = 1
-size = 8.0
-near = 0.001
+size = 6.0
 
 [node name="PhantomCameraHost" type="Node" parent="Camera3D"]
 script = ExtResource("2_sa7a4")
@@ -159,6 +176,18 @@ anchor_bottom = 1.0
 offset_top = 64.0
 grow_horizontal = 2
 grow_vertical = 2
+
+[node name="EndCam" type="Node3D" parent="." node_paths=PackedStringArray("follow_target")]
+transform = Transform3D(0.707106, -0.499999, 0.5, 0, 0.707106, 0.707106, -0.707106, -0.499999, 0.5, 10, 14.1421, 10)
+script = ExtResource("3_qfict")
+follow_mode = 5
+follow_target = NodePath("../Cursor")
+tween_resource = SubResource("Resource_xo2et")
+camera_3d_resource = SubResource("Resource_72ah3")
+follow_damping = true
+follow_damping_value = Vector3(0.75, 0.9, 0.75)
+follow_distance = 20.0
+spring_length = 20.0
 
 [node name="IsoCam" type="Node3D" parent="." node_paths=PackedStringArray("follow_target", "follow_targets")]
 transform = Transform3D(0.866025, -0.383022, 0.321394, 0, 0.642787, 0.766044, -0.5, -0.663413, 0.55667, 6.42788, 15.3209, 11.1334)

@@ -13,7 +13,7 @@ var mines = 8
 var total_tiles = 0
 
 var board = []
-var max_flag_count = 8
+var max_flag_count = 0
 var flag_count = 0
 var lost = false
 var board_init = false
@@ -34,6 +34,32 @@ var pulse_effect_center: Vector2
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	arena_theme = arena_themes[arena_theme_index]
+	
+	ui.set_volumetric_color(arena_theme.volumetric_color)
+
+	var arena_size_idx = ProjectSettings.get_setting("arena_size")
+	if arena_size_idx == 0:
+		grid_length = 8
+		grid_width = 8
+	elif arena_size_idx == 1:
+		grid_length = 16
+		grid_width = 8
+	elif arena_size_idx == 2:
+		grid_length = 16
+		grid_width = 16
+	elif arena_size_idx == 3:
+		grid_length = 32
+		grid_width = 16
+	elif arena_size_idx == 4:
+		grid_length = 32
+		grid_width = 32
+
+	mines = floor(grid_length * grid_length * 0.1)
+	total_tiles = grid_length * grid_width
+	max_flag_count = mines
+	
+	$IsoCam.set_priority(500)
+
 	arrange_grid()
 	arrange_environment()
 	cursor.move(Vector2i(grid_length / 2, grid_width - 1))
@@ -43,7 +69,7 @@ func _physics_process(delta):
 	if timer_started and not game_over:
 		time += delta
 		ui.update_time(time)
-	
+
 	if pulse_effect_strength > 0:
 		for x in range(grid_length):
 			for y in range(grid_width):
@@ -51,9 +77,10 @@ func _physics_process(delta):
 				var tile = board[x][y] as Tile
 				if clamp(1 - abs(distance - pulse_effect_radius), 0, 1) > 0.5:
 					tile.reveal_mine(lost)
-				
+
 				if lost:
 					tile.get_parent().get_node("TileMesh").position.y = clamp(1 - abs(distance - pulse_effect_radius), 0, 1) * pulse_effect_strength
+
 
 func _process(delta):
 	if game_over:
@@ -72,6 +99,7 @@ func _process(delta):
 		if cursor.target_pos.x < grid_length - 1:
 			cursor.move(Vector2(1, 0))
 
+	ui.update_flag(max_flag_count - flag_count, max_flag_count)
 
 func _input(event):
 	if game_over:
@@ -102,6 +130,7 @@ func _input(event):
 	if e.is_action_pressed("switch_view"):
 		switch_view()
 
+
 func arrange_grid():
 	if len(arena_themes) == 0:
 		return
@@ -130,6 +159,7 @@ func arrange_grid():
 		board.append(row)
 	set_cosmetics()
 
+
 func arrange_mines(exc: Vector2i):
 	board_init = true
 	var m = 0
@@ -144,6 +174,7 @@ func arrange_mines(exc: Vector2i):
 			(board[i][j] as Tile).is_mine = true
 			m += 1
 
+
 func set_cosmetics():
 	var p = 0
 	var max_puddles = grid_length * grid_width * 0.01
@@ -154,6 +185,7 @@ func set_cosmetics():
 		if (board[i][j] as Tile).show_imperfection():
 			p += 1
 
+
 func reveal_recursive(start_position: Vector2i):
 	const matrix = [[-1, 0], [1, 0], [0, -1], [0, 1]]
 	if not timer_started:
@@ -163,6 +195,7 @@ func reveal_recursive(start_position: Vector2i):
 
 	if (board[start_position.x][start_position.y] as Tile).is_mine:
 		print("YOU LOST")
+		$EndCam.set_priority(1000)
 		cursor.start_losing()
 		game_over = true
 		lost = true
@@ -188,7 +221,6 @@ func reveal_recursive(start_position: Vector2i):
 			if tile.is_mine:
 				print("Is mine")
 			else:
-				print("Already done", tile.get_nearby_mines())
 				tile.update_hint()
 			continue
 
@@ -201,7 +233,7 @@ func reveal_recursive(start_position: Vector2i):
 			cursor.start_cleansing()
 			start_ripple_effects(tile.board_pos)
 			ui.win("You have cleansed the divine pantheon. " + arena_theme.opponent + "'s curse has been lifted!", time)
-			$IsoCam.set_priority(1000)
+			$EndCam.set_priority(1000)
 
 		if tile.get_nearby_mines() > 0:
 			continue
@@ -213,6 +245,7 @@ func reveal_recursive(start_position: Vector2i):
 			queue.append(neighbor_pos)
 
 	revealing_multi = false
+
 
 func switch_view():
 	top_view = !top_view
@@ -340,25 +373,25 @@ func arrange_environment():
 			for x in range(grid_length):
 				if x != int(grid_length / 2):
 					var south_wall = south_wall_res.instantiate()
-					south_wall.position = Vector3(x, 0, grid_length)
+					south_wall.position = Vector3(x, 0, grid_width)
 					south_wall.rotate_y(-PI / 2)
 					add_child(south_wall)
 				else:
 					var south_door = south_door_res.instantiate()
-					south_door.position = Vector3(x, 0, grid_length)
+					south_door.position = Vector3(x, 0, grid_width)
 					south_door.rotate_y(-PI / 2)
 					add_child(south_door)
 		else:
 			for x in range(grid_length):
 				var south_wall = south_wall_res.instantiate()
-				south_wall.position = Vector3(x, 0, grid_length)
+				south_wall.position = Vector3(x, 0, grid_width)
 				south_wall.rotate_y(-PI / 2)
 				add_child(south_wall)
 #
 	$ReflectionProbe.size = Vector3(grid_length + 2, 20, grid_width + 2)
 	$ReflectionProbe.position = Vector3((grid_length + 2) / 2, 0, (grid_width + 2) / 2)
 
+
 func start_ripple_effects(center: Vector2i):
 	pulse_effect_center = Vector2(center.x, center.y)
 	$AnimationPlayer.play("destruct")
-	

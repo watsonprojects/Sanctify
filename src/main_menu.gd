@@ -34,7 +34,12 @@ func _process(delta):
 			theme = light_theme
 
 func set_arena_size(idx: int):
-	pass
+	ProjectSettings.set_setting("arena_size", idx)
+
+
+func set_arena_theme(idx: int):
+	ProjectSettings.set_setting("arena_theme", idx)
+
 
 func begin():
 	get_tree().change_scene_to_file("res://arena.tscn")

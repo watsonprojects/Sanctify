@@ -245,7 +245,7 @@ height = 24
 fill_to = Vector2(0, 1)
 
 [sub_resource type="Gradient" id="Gradient_lpqq3"]
-colors = PackedColorArray(0.40896, 0.72, 0.1368, 0.588235, 0.30104, 0.53, 0.1007, 0.67451)
+colors = PackedColorArray(0.976471, 0.768627, 0.25098, 0.588235, 0.831373, 0.556863, 0.0823529, 0.67451)
 
 [sub_resource type="GradientTexture2D" id="GradientTexture2D_unl5y"]
 gradient = SubResource("Gradient_lpqq3")
@@ -265,7 +265,7 @@ metadata/_edit_use_anchors_ = true
 
 [node name="Pattern" type="TextureRect" parent="."]
 modulate = Color(1, 1, 1, 0.12549)
-self_modulate = Color(1, 1, 1, 0.721569)
+self_modulate = Color(0.709724, 0.57287, 0.365661, 0.721569)
 material = SubResource("CanvasItemMaterial_ocs45")
 clip_contents = true
 layout_mode = 1
@@ -337,7 +337,7 @@ theme_override_fonts/font = ExtResource("8_76era")
 theme_override_font_sizes/font_size = 12
 text = "Arena Size"
 
-[node name="OptionButton" type="OptionButton" parent="VBoxContainer"]
+[node name="ArenaSizeSelect" type="OptionButton" parent="VBoxContainer"]
 clip_children = 2
 custom_minimum_size = Vector2(0, 28)
 layout_mode = 2
@@ -356,7 +356,39 @@ popup/item_3/id = 3
 popup/item_4/text = "32 x 32 (Legendary)"
 popup/item_4/id = 4
 
-[node name="Gradient" type="TextureRect" parent="VBoxContainer/OptionButton"]
+[node name="Gradient" type="TextureRect" parent="VBoxContainer/ArenaSizeSelect"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 1.0
+offset_top = 1.0
+offset_right = -1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = SubResource("Theme_rd2qt")
+texture = SubResource("GradientTexture2D_mdura")
+expand_mode = 1
+
+[node name="Location" type="Label" parent="VBoxContainer"]
+custom_minimum_size = Vector2(100, 0)
+layout_mode = 2
+theme_override_fonts/font = ExtResource("8_76era")
+theme_override_font_sizes/font_size = 12
+text = "Location"
+
+[node name="ArenaThemeSelect" type="OptionButton" parent="VBoxContainer"]
+clip_children = 2
+custom_minimum_size = Vector2(0, 28)
+layout_mode = 2
+icon_alignment = 2
+expand_icon = true
+selected = 0
+fit_to_longest_item = false
+item_count = 1
+popup/item_0/text = "Hades' Mischief in Sand Castle"
+
+[node name="Gradient" type="TextureRect" parent="VBoxContainer/ArenaThemeSelect"]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -402,5 +434,5 @@ horizontal_alignment = 1
 vertical_alignment = 1
 
 [connection signal="timeout" from="Pattern/AnimationPlayer/Timer" to="Pattern/AnimationPlayer" method="play" binds= ["throb"]]
-[connection signal="item_selected" from="VBoxContainer/OptionButton" to="." method="set_arena_size"]
+[connection signal="item_selected" from="VBoxContainer/ArenaSizeSelect" to="." method="set_arena_size"]
 [connection signal="pressed" from="VBoxContainer/PlayButton" to="." method="begin"]

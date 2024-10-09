@@ -2,6 +2,8 @@ extends Control
 
 class_name UI
 
+@onready var light: Light2D = $PostGame/Pattern/Light
+
 var dark_theme: Theme
 var light_theme: Theme
 
@@ -20,16 +22,27 @@ func _ready():
 		
 	else:
 		theme = light_theme
+		
+	$PostGame/Pattern.visible = false
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
+	var pos = get_viewport().get_mouse_position()
+	light.position = pos
+	
 	if DisplayServer.is_dark_mode() != dark:
 		dark = DisplayServer.is_dark_mode()
 		if dark:
 			theme = dark_theme
 		else:
 			theme = light_theme
-			
+
+
+func set_volumetric_color(color: Color):
+	$Splash.get_theme_stylebox("panel").bg_color = color.blend(Color("#6666"))
+	($Shadow.texture as GradientTexture2D).gradient.colors[0] = Color(color.r, color.g, color.b, color.a * 0.333)
+
+
 func update_time(seconds: float):
 	if end_game:
 		return
@@ -48,9 +61,15 @@ func update_time(seconds: float):
 		
 	$VBoxContainer/UI/StatusBox/TimeLabel.text = time_str
 
+
+func update_flag(flag_count: int, max_flag_count: int):
+	$VBoxContainer/UI/StatusBox/FlagCount.text = str(flag_count) + " / " + str(max_flag_count)
+
+
 func start_over():
-	get_tree().change_scene_to_file("res://arena.tscn")
-	
+	get_tree().reload_current_scene()
+
+
 func give_up():
 	$PostGame/VBoxContainer/FinalLabel.text = "EvadeD"
 	$PostGame/VBoxContainer/StoryLabel.text = "The curse still haunts this place"
@@ -59,15 +78,20 @@ func give_up():
 	$PostGame/LosingTexture.visible = false
 	$AnimationPlayer.play("end_game")
 	end_game = true
-	
+	$PostGame/Pattern.visible = true
+
+
 func go_back():
 	get_tree().change_scene_to_file("res://main_menu.tscn")
 
+
 func switch_view():
 	on_switch_view.emit()
-	
+
+
 func win(final_word: String, seconds: float):
 	$PostGame/VBoxContainer/FinalLabel.text = "SanctifieD"
+	$PostGame/VBoxContainer/FinalLabel.add_theme_color_override("font_color", Color("#ffe16b"))
 	$PostGame/VBoxContainer/StoryLabel.text = final_word
 	var hours = int(seconds / 3600)
 	var minutes = int(fmod(seconds, 3600) / 60)
@@ -85,13 +109,18 @@ func win(final_word: String, seconds: float):
 	$PostGame/WinningTexture.visible = true
 	$PostGame/LosingTexture.visible = false
 	$AnimationPlayer/EndTimer.start()
-	
-	
+	$PostGame/Pattern.visible = true
+
+
 func lose(final_word: String, tiles_left: int):
 	$PostGame/VBoxContainer/FinalLabel.text = "DefeateD"
+	$PostGame/VBoxContainer/FinalLabel.add_theme_color_override("font_color", Color("red"))
 	$PostGame/VBoxContainer/StoryLabel.text = final_word
 	$PostGame/VBoxContainer/StatusLabel.text = "Tiles Left: " + str(tiles_left)
 	$PostGame/WinningTexture.visible = false
 	$PostGame/LosingTexture.visible = true
 	$AnimationPlayer/EndTimer.start()
 	end_game = true
+	$PostGame/Pattern.visible = true
+	$PostGame/Pattern.self_modulate = Color("#ff0022b8")
+	$PostGame/Pattern/Light.color = Color("purple")
