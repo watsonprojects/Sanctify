@@ -220,7 +220,6 @@ environment = SubResource("Environment_bjets")
 transform = Transform3D(0.323274, 0.742638, -0.5865, 3.24558e-08, 0.619779, 0.784777, 0.946305, -0.253698, 0.200358, 0, 0, 0)
 layers = 7
 light_color = Color(0.998282, 0.940077, 0.845721, 1)
-light_energy = 2.0
 shadow_enabled = true
 shadow_bias = 0.04
 shadow_normal_bias = 5.034

@@ -10,6 +10,7 @@ var board_pos: Vector2i
 
 @onready var arena: Arena = get_parent().get_parent()
 
+@export var tile_mesh: MeshInstance3D
 @export var flag_node: Node3D
 @export var fog: Node3D
 @export var imperfection: Node3D
@@ -27,8 +28,8 @@ func _ready():
 	runes.append($RuneDecals/Rune5)
 	runes.append($RuneDecals/Rune6)
 	runes.append($RuneDecals/Rune7)
-
-
+	tile_mesh.get_surface_override_material(0).set("albedo_color",  Color("#fff").blend(Color("#000", randf_range(0.0, 0.2))))
+	tile_mesh.rotate_y(randi_range(1, 4) * PI / 2)
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
 	pass

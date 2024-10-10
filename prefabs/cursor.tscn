@@ -1,4 +1,4 @@
-[gd_scene load_steps=29 format=3 uid="uid://d2ho5gg1g3mc"]
+[gd_scene load_steps=33 format=3 uid="uid://d2ho5gg1g3mc"]
 
 [ext_resource type="Script" path="res://src/cursor.gd" id="1_g23o2"]
 [ext_resource type="Texture2D" uid="uid://btn3fn8xu0gc7" path="res://data/images/cleansing_circle.png" id="2_gqp8l"]
@@ -260,6 +260,30 @@ tracks/8/keys = {
 "update": 1,
 "values": [false]
 }
+tracks/9/type = "value"
+tracks/9/imported = false
+tracks/9/enabled = true
+tracks/9/path = NodePath("../CleansingPattern/Rays:visible")
+tracks/9/interp = 1
+tracks/9/loop_wrap = true
+tracks/9/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
+}
+tracks/10/type = "value"
+tracks/10/imported = false
+tracks/10/enabled = true
+tracks/10/path = NodePath("../CleansingPattern/Rays:mesh:material:albedo_texture:fill_from")
+tracks/10/interp = 1
+tracks/10/loop_wrap = true
+tracks/10/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(0.5, 0.9)]
+}
 
 [sub_resource type="Animation" id="Animation_pcmcf"]
 resource_name = "cleansing"
@@ -371,6 +395,30 @@ tracks/8/keys = {
 "transitions": PackedFloat32Array(1),
 "update": 1,
 "values": [false]
+}
+tracks/9/type = "value"
+tracks/9/imported = false
+tracks/9/enabled = true
+tracks/9/path = NodePath("../CleansingPattern/Rays:visible")
+tracks/9/interp = 1
+tracks/9/loop_wrap = true
+tracks/9/keys = {
+"times": PackedFloat32Array(0, 2.7),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [false, true]
+}
+tracks/10/type = "value"
+tracks/10/imported = false
+tracks/10/enabled = true
+tracks/10/path = NodePath("../CleansingPattern/Rays:mesh:material:albedo_texture:fill_from")
+tracks/10/interp = 1
+tracks/10/loop_wrap = true
+tracks/10/keys = {
+"times": PackedFloat32Array(2.6, 3.3),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector2(0.5, 0.9), Vector2(0.5, 0)]
 }
 
 [sub_resource type="Animation" id="Animation_2rnvm"]
@@ -527,6 +575,35 @@ specular_mode = 2
 disable_ambient_light = true
 albedo_texture = ExtResource("3_pmkwr")
 
+[sub_resource type="Gradient" id="Gradient_6savr"]
+offsets = PackedFloat32Array(0, 0.849624, 0.966165)
+colors = PackedColorArray(0.65, 0.4875, 0, 0, 1, 0.75, 0, 1, 1, 0.75, 0, 0)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_bc6pa"]
+gradient = SubResource("Gradient_6savr")
+fill_from = Vector2(0.5, 0.9)
+fill_to = Vector2(0.5, 1)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_igjx2"]
+transparency = 1
+blend_mode = 1
+cull_mode = 2
+no_depth_test = true
+shading_mode = 0
+vertex_color_use_as_albedo = true
+albedo_texture = SubResource("GradientTexture2D_bc6pa")
+disable_receive_shadows = true
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_7xum6"]
+material = SubResource("StandardMaterial3D_igjx2")
+top_radius = 2.0
+bottom_radius = 1.7
+height = 0.5
+radial_segments = 24
+rings = 1
+cap_top = false
+cap_bottom = false
+
 [node name="Cursor" type="Node3D"]
 script = ExtResource("1_g23o2")
 
@@ -553,8 +630,9 @@ skeleton = NodePath("../..")
 
 [node name="OmniLight3D" type="OmniLight3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.75, 0)
-light_color = Color(0.825212, 0.95658, 1, 1)
+light_color = Color(0.6308, 0.7277, 0.76, 1)
 light_energy = 0.0
+light_specular = 1.0
 shadow_enabled = true
 omni_range = 4.0
 
@@ -620,5 +698,11 @@ light_color = Color(0.976631, 0.703403, 0.296172, 1)
 light_energy = 0.0
 spot_angle = 89.0
 spot_angle_attenuation = 0.129408
+
+[node name="Rays" type="MeshInstance3D" parent="CleansingPattern"]
+transform = Transform3D(-0.660675, 0, 0.750672, 0, 1, 0, -0.750672, 0, -0.660675, 0, 0.370873, 0)
+visible = false
+cast_shadow = 0
+mesh = SubResource("CylinderMesh_7xum6")
 
 [connection signal="timeout" from="PulseAnimation/Timer" to="PulseAnimation" method="play" binds= ["pulse"]]
