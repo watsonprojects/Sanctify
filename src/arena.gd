@@ -373,7 +373,7 @@ func arrange_environment():
 			west_wall_layer.position = Vector3(grid_length, 0, y)
 			add_child(west_wall_layer)
 
-	#Make south wall
+	# Make south wall
 	if south_wall_res != null:
 		if south_door_res != null:
 			for x in range(grid_length):
@@ -393,13 +393,102 @@ func arrange_environment():
 				south_wall.position = Vector3(x, 0, grid_width)
 				south_wall.rotate_y(-PI / 2)
 				add_child(south_wall)
-#
-	#Make south-west corner
+
+	# Make north outer wall
+	if north_wall_outer_res != null:
+		if north_wall_outer_alt_res != null:
+			var alt = false
+			for x in range(grid_length):
+				alt = !alt
+				if not alt:
+					var north_outer_layer = north_wall_outer_res.instantiate()
+					north_outer_layer.position = Vector3(x, 0, -2)
+					north_outer_layer.rotate_y(-PI / 2)
+					add_child(north_outer_layer)
+				else:
+					var north_outer_layer_alt = north_wall_outer_alt_res.instantiate()
+					north_outer_layer_alt.position = Vector3(x, 0, -2)
+					north_outer_layer_alt.rotate_y(-PI / 2)
+					add_child(north_outer_layer_alt)
+		else:
+			for x in range(grid_length):
+				var north_outer_layer = north_wall_outer_res.instantiate()
+				north_outer_layer.position = Vector3(x, 0, -2)
+				north_outer_layer.rotate_y(-PI / 2)
+				add_child(north_outer_layer)
+	
+	# Make north inner wall
+	if north_wall_inner_res != null:
+		if north_door_res != null:
+			for x in range(grid_length):
+				if x == int(grid_length / 2):
+					var north_door = north_door_res.instantiate()
+					north_door.position = Vector3(x, 0, -1)
+					north_door.rotate_y(-PI / 2)
+					add_child(north_door)
+				elif north_wall_inner_alt_res != null:
+					if fmod(x, 2) != 0:
+						var north_wall_inner = north_wall_inner_alt_res.instantiate()
+						north_wall_inner.position = Vector3(x, 0, -1)
+						north_wall_inner.rotate_y(-PI / 2)
+						add_child(north_wall_inner)
+					else:
+						var north_wall = north_wall_inner_res.instantiate()
+						north_wall.position = Vector3(x, 0, -1)
+						north_wall.rotate_y(-PI / 2)
+						add_child(north_wall)
+				else:
+					var north_wall = north_wall_inner_res.instantiate()
+					north_wall.position = Vector3(x, 0, -1)
+					north_wall.rotate_y(-PI / 2)
+					add_child(north_wall)
+		else:
+			if north_wall_outer_alt_res != null:
+				var alt = true
+				for x in range(grid_length):
+					alt = !alt
+					if not alt:
+						var north_outer_layer = north_wall_outer_res.instantiate()
+						north_outer_layer.position = Vector3(x, 0, -2)
+						north_outer_layer.rotate_y(-PI / 2)
+						add_child(north_outer_layer)
+					else:
+						var north_outer_layer_alt = north_wall_outer_alt_res.instantiate()
+						north_outer_layer_alt.position = Vector3(x, 0, -2)
+						north_outer_layer_alt.rotate_y(-PI / 2)
+						add_child(north_outer_layer_alt)
+			else:
+				for x in range(grid_length):
+					var north_outer_layer = north_wall_outer_res.instantiate()
+					north_outer_layer.position = Vector3(x, 0, -2)
+					north_outer_layer.rotate_y(-PI / 2)
+					add_child(north_outer_layer)
+
+	# Make north-east corner
+	if north_east_corner_res != null:
+		var north_east_corner = north_east_corner_res.instantiate()
+		north_east_corner.position = Vector3(-1, 0, -1)
+		add_child(north_east_corner)
+
+	# Make north-west corner
+	if north_west_corner_res != null:
+		var north_west_corner = north_west_corner_res.instantiate()
+		north_west_corner.position = Vector3(grid_length, 0, -1)
+		add_child(north_west_corner)
+
+	# Make south-west corner
 	if south_west_corner_res != null:
 		var south_west_corner = south_west_corner_res.instantiate()
 		south_west_corner.position = Vector3(grid_length, 0, grid_width)
 		south_west_corner.rotate_y(-PI / 2)
 		add_child(south_west_corner)
+		
+	# Make south-east corner
+	if south_east_corner_res != null:
+		var south_east_corner = south_east_corner_res.instantiate()
+		south_east_corner.position = Vector3(-1, 0, grid_width)
+		south_east_corner.rotate_y(-PI / 2)
+		add_child(south_east_corner)
 		
 	$ReflectionProbe.size = Vector3(grid_length + 2, 20, grid_width + 2)
 	$ReflectionProbe.position = Vector3((grid_length + 2) / 2, 0, (grid_width + 2) / 2)

@@ -10,7 +10,6 @@ size = Vector3(0.5, 8, 1)
 size = Vector3(21, 1, 1)
 
 [node name="SandStoneOuterWall" type="MeshInstance3D"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
 mesh = SubResource("BoxMesh_oob6i")
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="."]

@@ -1,42 +1,33 @@
-[gd_scene load_steps=6 format=3 uid="uid://c06wixb1nkbto"]
+[gd_scene load_steps=7 format=3 uid="uid://c06wixb1nkbto"]
 
-[sub_resource type="BoxMesh" id="BoxMesh_jsyq1"]
-size = Vector3(1, 1.5, 1)
+[ext_resource type="PackedScene" uid="uid://bf46tnpndk2i" path="res://models/themed_blocks/sand_stone/sand_stone_wall.blend" id="1_ghkvg"]
+[ext_resource type="Texture2D" uid="uid://bbobiut684d5h" path="res://models/themed_blocks/sand_stone/textures/MainWall.png" id="2_5e4dr"]
+[ext_resource type="Texture2D" uid="uid://b2nga5833vw5x" path="res://models/themed_blocks/sand_stone/textures/Base.png" id="2_w3xi2"]
 
-[sub_resource type="BoxMesh" id="BoxMesh_rjn55"]
-size = Vector3(0.1, 20, 1)
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_aypxa"]
+albedo_color = Color(0.839216, 0.654902, 0.462745, 1)
 
-[sub_resource type="CylinderMesh" id="CylinderMesh_5xe87"]
-top_radius = 0.05
-bottom_radius = 0.1
-height = 1.0
-radial_segments = 8
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_4350w"]
+albedo_texture = ExtResource("2_w3xi2")
+roughness = 0.9
+roughness_texture = ExtResource("2_w3xi2")
 
-[sub_resource type="PrismMesh" id="PrismMesh_1rwt1"]
-size = Vector3(0.83, 0.17, 0.255)
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_pdqf7"]
+albedo_texture = ExtResource("2_5e4dr")
+roughness = 0.95
+roughness_texture = ExtResource("2_5e4dr")
+texture_filter = 1
 
-[sub_resource type="BoxMesh" id="BoxMesh_ftw2u"]
-size = Vector3(0.32, 20, 0.395)
+[node name="sand_stone_wall" instance=ExtResource("1_ghkvg")]
 
-[node name="Wall" type="MeshInstance3D"]
-mesh = SubResource("BoxMesh_jsyq1")
+[node name="SupportPillar" parent="." index="0"]
+material_override = SubResource("StandardMaterial3D_aypxa")
 
-[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.301, -7.99604, 0)
-mesh = SubResource("BoxMesh_rjn55")
+[node name="Base" parent="." index="1"]
+material_override = SubResource("StandardMaterial3D_4350w")
 
-[node name="Pillar2" type="MeshInstance3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.359, 1.25496, 0.25)
-mesh = SubResource("CylinderMesh_5xe87")
+[node name="MainWall" parent="." index="2"]
+surface_material_override/0 = SubResource("StandardMaterial3D_pdqf7")
 
-[node name="Pillar3" type="MeshInstance3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.359, 1.25496, -0.25)
-mesh = SubResource("CylinderMesh_5xe87")
-
-[node name="MeshInstance3D2" type="MeshInstance3D" parent="."]
-transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 0.341003, 1.8048, -1.49057e-08)
-mesh = SubResource("PrismMesh_1rwt1")
-
-[node name="MeshInstance3D3" type="MeshInstance3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.44, -11.464, 0)
-mesh = SubResource("BoxMesh_ftw2u")
+[node name="MassiveWall" parent="." index="3"]
+material_override = SubResource("StandardMaterial3D_aypxa")

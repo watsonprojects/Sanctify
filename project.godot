@@ -32,6 +32,10 @@ window/size/viewport_height=600
 window/size/window_width_override=800
 window/size/window_height_override=600
 
+[dotnet]
+
+project/assembly_name="Sanctify"
+
 [editor_plugins]
 
 enabled=PackedStringArray("res://addons/debug_menu/plugin.cfg", "res://addons/phantom_camera/plugin.cfg")
@@ -166,6 +170,7 @@ switch_view={
 renderer/rendering_method="mobile"
 textures/decals/filter=0
 environment/glow/upscale_mode=0
+anti_aliasing/quality/msaa_2d=1
 anti_aliasing/quality/screen_space_aa=1
 viewport/size/borderless=false
 viewport/size/transparent=false
