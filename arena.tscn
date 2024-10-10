@@ -74,9 +74,9 @@ background_color = Color(0.136715, 0.374687, 0.569955, 1)
 sky = SubResource("Sky_urgai")
 sky_custom_fov = 64.0
 ambient_light_source = 2
-ambient_light_color = Color(1, 1, 1, 1)
+ambient_light_color = Color(0.481859, 0.640885, 0.728795, 1)
 ambient_light_sky_contribution = 0.37
-ambient_light_energy = 0.1
+ambient_light_energy = 0.5
 reflected_light_source = 2
 glow_enabled = true
 glow_strength = 1.16
@@ -217,14 +217,28 @@ spring_length = 20.0
 environment = SubResource("Environment_bjets")
 
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
-transform = Transform3D(-0.73373, -0.53321, 0.421104, 0, 0.619779, 0.784777, -0.679441, 0.575814, -0.454751, 0, 0, 0)
+transform = Transform3D(0.323274, 0.742638, -0.5865, 3.24558e-08, 0.619779, 0.784777, 0.946305, -0.253698, 0.200358, 0, 0, 0)
 layers = 7
+light_color = Color(0.998282, 0.940077, 0.845721, 1)
+light_energy = 2.0
 shadow_enabled = true
 shadow_bias = 0.04
 shadow_normal_bias = 5.034
 shadow_blur = 0.663
 directional_shadow_mode = 1
 directional_shadow_pancake_size = 0.0
+
+[node name="DirectionalLight3D2" type="DirectionalLight3D" parent="."]
+transform = Transform3D(0.553392, -0.653657, 0.516227, 0, 0.619779, 0.784776, -0.832921, -0.434289, 0.34298, 0, 0, 0)
+layers = 7
+light_color = Color(0.16404, 0.524132, 0.739693, 1)
+shadow_enabled = true
+shadow_bias = 0.04
+shadow_normal_bias = 5.034
+shadow_blur = 0.5
+directional_shadow_mode = 1
+directional_shadow_pancake_size = 0.0
+sky_mode = 1
 
 [node name="Cursor" parent="." instance=ExtResource("7_xb0cn")]
 

@@ -60,10 +60,8 @@ texture_normal = SubResource("NoiseTexture2D_gq0dh")
 texture_orm = ExtResource("4_veu2f")
 
 [node name="TileMesh" type="MeshInstance3D" parent="."]
-transform = Transform3D(0.95, 0, 0, 0, 0.95, 0, 0, 0, 0.95, 0, 0, 0)
 layers = 2
 material_override = ExtResource("5_me8wp")
-cast_shadow = 0
 mesh = SubResource("BoxMesh_5jdg5")
 
 [node name="Flags" type="Node3D" parent="."]
@@ -80,3 +78,6 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2, 0)
 layers = 8
 mesh = SubResource("PlaneMesh_3ha34")
 skeleton = NodePath("../..")
+
+[node name="GPUParticlesCollisionBox3D" type="GPUParticlesCollisionBox3D" parent="."]
+size = Vector3(1, 1, 1)

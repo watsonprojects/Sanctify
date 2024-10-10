@@ -1,4 +1,4 @@
-[gd_scene load_steps=27 format=3 uid="uid://d2ho5gg1g3mc"]
+[gd_scene load_steps=29 format=3 uid="uid://d2ho5gg1g3mc"]
 
 [ext_resource type="Script" path="res://src/cursor.gd" id="1_g23o2"]
 [ext_resource type="Texture2D" uid="uid://btn3fn8xu0gc7" path="res://data/images/cleansing_circle.png" id="2_gqp8l"]
@@ -49,21 +49,35 @@ colors = PackedColorArray(0, 0, 0, 1, 1, 1, 1, 1, 0, 0, 0, 1)
 [sub_resource type="GradientTexture1D" id="GradientTexture1D_dy5kk"]
 gradient = SubResource("Gradient_67j4x")
 
+[sub_resource type="Curve" id="Curve_t2fmk"]
+_data = [Vector2(0, 0), 0.0, 0.0, 0, 0, Vector2(0.302198, 1), 0.0, 0.0, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
+point_count = 3
+
+[sub_resource type="CurveTexture" id="CurveTexture_ml5a4"]
+curve = SubResource("Curve_t2fmk")
+
 [sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_bpmve"]
 emission_shape_scale = Vector3(0.1, 0.1, 0.1)
 emission_shape = 1
 emission_sphere_radius = 1.0
-gravity = Vector3(0, -0.1, 0)
+gravity = Vector3(0, -0.5, 0)
 color_ramp = SubResource("GradientTexture1D_dy5kk")
 alpha_curve = SubResource("CurveTexture_c8576")
+emission_curve = SubResource("CurveTexture_ml5a4")
 turbulence_enabled = true
+collision_mode = 1
+collision_friction = 0.0
+collision_bounce = 0.75
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_v77s4"]
+shading_mode = 2
 diffuse_mode = 1
+specular_mode = 2
 vertex_color_use_as_albedo = true
 emission_enabled = true
 emission = Color(1, 1, 1, 1)
 emission_energy_multiplier = 16.0
+texture_filter = 0
 disable_receive_shadows = true
 billboard_mode = 3
 particles_anim_h_frames = 1
@@ -545,13 +559,17 @@ shadow_enabled = true
 omni_range = 4.0
 
 [node name="GPUParticles3D" type="GPUParticles3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.75, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.252854, 0)
 cast_shadow = 0
 amount = 16
-lifetime = 3.0
+lifetime = 5.0
 randomness = 0.24
 process_material = SubResource("ParticleProcessMaterial_bpmve")
 draw_pass_1 = SubResource("QuadMesh_4j0ch")
+
+[node name="GPUParticlesAttractorSphere3D" type="GPUParticlesAttractorSphere3D" parent="GPUParticles3D"]
+strength = 1.75
+radius = 1.75
 
 [node name="PulseAnimation" type="AnimationPlayer" parent="."]
 root_node = NodePath("../CursorMesh")

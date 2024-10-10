@@ -31,3 +31,7 @@ surface_material_override/0 = SubResource("StandardMaterial3D_pdqf7")
 
 [node name="MassiveWall" parent="." index="3"]
 material_override = SubResource("StandardMaterial3D_aypxa")
+
+[node name="Plane" parent="." index="4"]
+transform = Transform3D(4.37114e-08, -1, 1.50996e-07, -1, -4.37114e-08, 0, 6.60024e-15, -1.50996e-07, -1, 0.260259, 0.999989, 0)
+cast_shadow = 3
